@@ -30,7 +30,6 @@
   --transition:  0.22s cubic-bezier(.4,0,.2,1);
 }
 
-/* ─── RESET ──────────────────────────────────────────────── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
@@ -44,7 +43,6 @@ body{
 input,textarea,select,button{font-family:inherit;font-size:inherit}
 a{color:var(--gold);text-decoration:none}
 
-/* ─── TOP HEADER ─────────────────────────────────────────── */
 .site-header{
   background:var(--ink);
   padding:18px 32px;
@@ -65,7 +63,6 @@ a{color:var(--gold);text-decoration:none}
   letter-spacing:.04em;
 }
 
-/* ─── HERO INTRO ─────────────────────────────────────────── */
 .hero{
   background:var(--ink);
   padding:52px 32px 44px;
@@ -92,7 +89,6 @@ a{color:var(--gold);text-decoration:none}
   line-height:1.7;
 }
 
-/* ─── PROGRESS BAR ───────────────────────────────────────── */
 .progress-wrap{
   background:var(--ink);
   padding:0 32px 24px;
@@ -128,7 +124,6 @@ a{color:var(--gold);text-decoration:none}
   transition:width .5s cubic-bezier(.4,0,.2,1);
 }
 
-/* ─── STEPS NAV ──────────────────────────────────────────── */
 .steps-nav{
   background:var(--cream-dark);
   border-bottom:1px solid var(--line);
@@ -177,14 +172,12 @@ a{color:var(--gold);text-decoration:none}
   flex-shrink:0;
 }
 
-/* ─── MAIN LAYOUT ────────────────────────────────────────── */
 .main-wrap{
   max-width:820px;
   margin:0 auto;
   padding:40px 20px 80px;
 }
 
-/* ─── SECTION CARD ───────────────────────────────────────── */
 .section-card{
   background:var(--white);
   border:1px solid var(--line);
@@ -228,7 +221,6 @@ a{color:var(--gold);text-decoration:none}
 }
 .card-body{padding:28px}
 
-/* ─── FORM ELEMENTS ──────────────────────────────────────── */
 .field{margin-bottom:22px}
 .field:last-child{margin-bottom:0}
 .field label{
@@ -289,14 +281,12 @@ select{
   cursor:pointer;
 }
 
-/* ─── GRID ───────────────────────────────────────────────── */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 @media(max-width:640px){
   .grid-2,.grid-3{grid-template-columns:1fr}
 }
 
-/* ─── CHECKBOX & RADIO GROUPS ────────────────────────────── */
 .check-group{
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
@@ -341,7 +331,6 @@ select{
   font-weight:700;
 }
 
-/* ─── STYLE CHIPS ────────────────────────────────────────── */
 .style-chips{display:flex;flex-wrap:wrap;gap:8px}
 .style-chip{
   padding:7px 16px;
@@ -362,7 +351,6 @@ select{
 }
 .style-chip input{display:none}
 
-/* ─── COLOR SWATCHES ─────────────────────────────────────── */
 .color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
 .color-swatch-wrap{position:relative}
 .color-swatch-wrap input[type=color]{
@@ -386,7 +374,6 @@ select{
 }
 .color-add-btn:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ─── DYNAMIC SERVICES ───────────────────────────────────── */
 .service-entry{
   border:1.5px solid var(--line);
   border-radius:var(--radius-sm);
@@ -418,7 +405,6 @@ select{
 }
 .service-remove:hover{background:rgba(192,57,43,.1);color:var(--danger)}
 
-/* ─── ADD BUTTON ─────────────────────────────────────────── */
 .btn-add{
   display:flex;align-items:center;gap:8px;
   padding:10px 18px;
@@ -434,7 +420,6 @@ select{
 }
 .btn-add:hover{background:var(--gold);color:var(--white)}
 
-/* ─── NAV BUTTONS ────────────────────────────────────────── */
 .section-nav{
   display:flex;
   justify-content:space-between;
@@ -476,7 +461,6 @@ select{
   box-shadow:0 4px 20px rgba(12,10,8,.25);
 }
 
-/* ─── OUTPUT AREA ────────────────────────────────────────── */
 #output-section{
   display:none;
   animation:fadeSlide .35s ease both;
@@ -527,7 +511,6 @@ select{
   overflow-x:auto;
 }
 
-/* ─── BOTTOM TOOLBAR ─────────────────────────────────────── */
 .bottom-bar{
   background:var(--white);
   border-top:1px solid var(--line);
@@ -565,7 +548,6 @@ select{
 }
 .btn-clear:hover{border-color:var(--danger);color:var(--danger)}
 
-/* ─── TOAST ──────────────────────────────────────────────── */
 .toast{
   position:fixed;
   bottom:80px;right:24px;
@@ -586,7 +568,6 @@ select{
 .toast.show{transform:translateY(0);opacity:1}
 .toast-icon{color:var(--gold-light);font-size:16px}
 
-/* ─── VALIDATION ERROR ───────────────────────────────────── */
 .field-error{
   font-size:11px;
   color:var(--danger);
@@ -595,7 +576,6 @@ select{
 }
 .field-error.show{display:block}
 
-/* ─── UPLOAD ─────────────────────────────────────────────── */
 .upload-zone{
   border:1.5px dashed var(--line);
   border-radius:var(--radius-sm);
@@ -618,24 +598,54 @@ select{
   color:var(--ink-muted);
 }
 
-/* ─── SECTION DIVIDER ────────────────────────────────────── */
 .divider{
   border:none;
   border-top:1px solid var(--line);
   margin:24px 0;
 }
 
-/* ─── PRINT ──────────────────────────────────────────────── */
-@media print{
-  .site-header,.hero,.progress-wrap,.steps-nav,
-  .section-card,.bottom-bar,.section-nav,
-  .output-header .output-actions{display:none!important}
-  #output-section{display:block!important}
-  .brief-box{border:none;padding:0;font-size:11pt}
+/* ─── SEND METHODS GRID ─────────────────────────────────── */
+.send-methods{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  padding:0 32px 28px;
+}
+.send-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:16px 20px;
+  border:none;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-family:'Sora',sans-serif;
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.05em;
+  transition:var(--transition);
+}
+.send-btn.wa{background:#25D366;color:#fff;}
+.send-btn.wa:hover{background:#1da352}
+.send-btn.wa.full{grid-column:1/-1;}
+.send-btn.email{background:var(--gold);color:#fff;}
+.send-btn.email:hover{background:#9a7620}
+.send-btn.copy{background:rgba(255,255,255,.08);color:var(--cream);border:1.5px solid rgba(255,255,255,.15);}
+.send-btn.copy:hover{background:var(--gold);border-color:var(--gold)}
+.send-btn.dl{background:rgba(255,255,255,.08);color:var(--cream);border:1.5px solid rgba(255,255,255,.15);}
+.send-btn.dl:hover{background:var(--gold);border-color:var(--gold)}
+.send-note{
+  text-align:center;
+  font-size:11px;
+  color:var(--ink-light);
+  font-style:italic;
+  padding:0 32px 20px;
 }
 
-/* ─── MOBILE ─────────────────────────────────────────────── */
 @media(max-width:580px){
+  .send-methods{grid-template-columns:1fr;}
+  .send-btn.wa.full{grid-column:1;}
   .site-header{padding:14px 16px}
   .hero{padding:36px 16px 28px}
   .main-wrap{padding:24px 12px 80px}
@@ -645,13 +655,19 @@ select{
   .bottom-bar{padding:12px 16px}
   .output-header{padding:18px}
 }
+
+@media print{
+  .site-header,.hero,.progress-wrap,.steps-nav,
+  .section-card,.bottom-bar,.section-nav,
+  .output-header .output-actions{display:none!important}
+  #output-section{display:block!important}
+  .brief-box{border:none;padding:0;font-size:11pt}
+}
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ────────────────────────────────────────────── -->
 <header class="site-header">
-  <!-- Light version of the logo (on dark bg) -->
   <svg class="logo-svg" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
     <g transform="translate(4,25)">
       <path d="M0,-16 L3.5,-3.5 L16,0 L3.5,3.5 L0,16 L-3.5,3.5 L-16,0 L-3.5,-3.5 Z" fill="#B8922A"/>
@@ -663,7 +679,6 @@ select{
   <span class="header-tagline">Client Website Brief</span>
 </header>
 
-<!-- ── HERO ──────────────────────────────────────────────── -->
 <div class="hero">
   <svg class="hero-star" width="48" height="48" viewBox="0 0 48 48">
     <path d="M24,4 L27,19 L42,24 L27,29 L24,44 L21,29 L6,24 L21,19 Z" fill="#B8922A" opacity=".9"/>
@@ -673,7 +688,6 @@ select{
   <p>This quick form helps us understand your business so we can craft something truly remarkable. Takes about 10–15 minutes — a small investment for a site that works hard for you.</p>
 </div>
 
-<!-- ── PROGRESS ──────────────────────────────────────────── -->
 <div class="progress-wrap">
   <div class="progress-header">
     <span class="progress-label">Your Progress</span>
@@ -682,17 +696,11 @@ select{
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
 </div>
 
-<!-- ── SECTION NAV ────────────────────────────────────────── -->
-<nav class="steps-nav" id="stepsNav">
-  <!-- rendered by JS -->
-</nav>
+<nav class="steps-nav" id="stepsNav"></nav>
 
-<!-- ── MAIN ───────────────────────────────────────────────── -->
 <main class="main-wrap">
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 1 — BUSINESS INFORMATION
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 1 — BUSINESS INFORMATION -->
 <div class="section-card active" data-section="0">
   <div class="card-header">
     <div class="card-icon">
@@ -772,9 +780,7 @@ select{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 2 — BUSINESS OVERVIEW
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 2 — BUSINESS OVERVIEW -->
 <div class="section-card" data-section="1">
   <div class="card-header">
     <div class="card-icon">
@@ -814,9 +820,7 @@ select{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 3 — SERVICES / PRODUCTS
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 3 — SERVICES -->
 <div class="section-card" data-section="2">
   <div class="card-header">
     <div class="card-icon">
@@ -831,15 +835,11 @@ select{
   </div>
   <div class="card-body">
     <div id="servicesContainer"></div>
-    <button class="btn-add" id="addServiceBtn">
-      <span>+</span> Add Another Service
-    </button>
+    <button class="btn-add" id="addServiceBtn"><span>+</span> Add Another Service</button>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 4 — TARGET AUDIENCE
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 4 — TARGET AUDIENCE -->
 <div class="section-card" data-section="3">
   <div class="card-header">
     <div class="card-icon">
@@ -895,9 +895,7 @@ select{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 5 — WEBSITE GOALS
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 5 — WEBSITE GOALS -->
 <div class="section-card" data-section="4">
   <div class="card-header">
     <div class="card-icon">
@@ -930,9 +928,7 @@ select{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 6 — REQUIRED PAGES
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 6 — REQUIRED PAGES -->
 <div class="section-card" data-section="5">
   <div class="card-header">
     <div class="card-icon">
@@ -967,9 +963,7 @@ select{
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 7 — BRANDING
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 7 — BRANDING -->
 <div class="section-card" data-section="6">
   <div class="card-header">
     <div class="card-icon">
@@ -1022,15 +1016,13 @@ select{
     </div>
     <div class="field">
       <label>Website Inspiration <span class="opt">(optional)</span></label>
-      <div class="field-hint">Any websites you love the look of? (Not necessarily your competitors)</div>
+      <div class="field-hint">Any websites you love the look of?</div>
       <input type="text" id="inspiration" placeholder="e.g. apple.com, notion.so, stripe.com"/>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 8 — COMPETITOR ANALYSIS
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 8 — COMPETITOR ANALYSIS -->
 <div class="section-card" data-section="7">
   <div class="card-header">
     <div class="card-icon">
@@ -1045,35 +1037,24 @@ select{
   </div>
   <div class="card-body">
     <div class="grid-3">
-      <div class="field">
-        <label>Competitor 1</label>
-        <input type="url" id="comp1" placeholder="https://"/>
-      </div>
-      <div class="field">
-        <label>Competitor 2</label>
-        <input type="url" id="comp2" placeholder="https://"/>
-      </div>
-      <div class="field">
-        <label>Competitor 3</label>
-        <input type="url" id="comp3" placeholder="https://"/>
-      </div>
+      <div class="field"><label>Competitor 1</label><input type="url" id="comp1" placeholder="https://"/></div>
+      <div class="field"><label>Competitor 2</label><input type="url" id="comp2" placeholder="https://"/></div>
+      <div class="field"><label>Competitor 3</label><input type="url" id="comp3" placeholder="https://"/></div>
     </div>
     <div class="field">
       <label>What do you like about their sites?</label>
-      <textarea id="compLike" rows="3" placeholder="e.g. Clean layout, strong call-to-actions, fast loading…" maxlength="400"></textarea>
+      <textarea id="compLike" rows="3" placeholder="e.g. Clean layout, strong CTAs…" maxlength="400"></textarea>
       <div class="char-counter"><span id="compLikeCount">0</span>/400</div>
     </div>
     <div class="field">
-      <label>What do you dislike or want to do better?</label>
-      <textarea id="compDislike" rows="3" placeholder="e.g. Hard to navigate, doesn't show pricing, no mobile version…" maxlength="400"></textarea>
+      <label>What do you want to do better?</label>
+      <textarea id="compDislike" rows="3" placeholder="e.g. Hard to navigate, no pricing…" maxlength="400"></textarea>
       <div class="char-counter"><span id="compDislikeCount">0</span>/400</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 9 — CONTACT FOR WEBSITE
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 9 — CONTACT FOR WEBSITE -->
 <div class="section-card" data-section="8">
   <div class="card-header">
     <div class="card-icon">
@@ -1088,51 +1069,25 @@ select{
   </div>
   <div class="card-body">
     <div class="grid-2">
-      <div class="field">
-        <label>Public Email</label>
-        <input type="email" id="pubEmail" placeholder="hello@yoursite.com"/>
-      </div>
-      <div class="field">
-        <label>Public Phone</label>
-        <input type="tel" id="pubPhone" placeholder="+91 98765 43210"/>
-      </div>
+      <div class="field"><label>Public Email</label><input type="email" id="pubEmail" placeholder="hello@yoursite.com"/></div>
+      <div class="field"><label>Public Phone</label><input type="tel" id="pubPhone" placeholder="+91 98765 43210"/></div>
     </div>
     <div class="grid-2">
-      <div class="field">
-        <label>WhatsApp Number <span class="opt">(optional)</span></label>
-        <input type="tel" id="whatsapp" placeholder="+91 98765 43210"/>
-      </div>
-      <div class="field">
-        <label>Business Location / Address <span class="opt">(optional)</span></label>
-        <input type="text" id="pubAddress" placeholder="Full or partial address for the site"/>
-      </div>
+      <div class="field"><label>WhatsApp Number <span class="opt">(optional)</span></label><input type="tel" id="whatsapp" placeholder="+91 98765 43210"/></div>
+      <div class="field"><label>Business Location / Address <span class="opt">(optional)</span></label><input type="text" id="pubAddress" placeholder="Full or partial address"/></div>
     </div>
     <hr class="divider"/>
     <p style="font-size:12px;color:var(--ink-light);margin-bottom:16px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;">Social Media Handles</p>
     <div class="grid-2">
-      <div class="field">
-        <label>Instagram</label>
-        <input type="text" id="smInstagram" placeholder="@yourhandle or full URL"/>
-      </div>
-      <div class="field">
-        <label>Facebook</label>
-        <input type="text" id="smFacebook" placeholder="@page or full URL"/>
-      </div>
-      <div class="field">
-        <label>LinkedIn</label>
-        <input type="text" id="smLinkedin" placeholder="profile or company URL"/>
-      </div>
-      <div class="field">
-        <label>YouTube / Other</label>
-        <input type="text" id="smOther" placeholder="YouTube, Twitter, TikTok…"/>
-      </div>
+      <div class="field"><label>Instagram</label><input type="text" id="smInstagram" placeholder="@yourhandle or full URL"/></div>
+      <div class="field"><label>Facebook</label><input type="text" id="smFacebook" placeholder="@page or full URL"/></div>
+      <div class="field"><label>LinkedIn</label><input type="text" id="smLinkedin" placeholder="profile or company URL"/></div>
+      <div class="field"><label>YouTube / Other</label><input type="text" id="smOther" placeholder="YouTube, Twitter, TikTok…"/></div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 10 — SEO
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 10 — SEO -->
 <div class="section-card" data-section="9">
   <div class="card-header">
     <div class="card-icon">
@@ -1156,16 +1111,14 @@ select{
     </div>
     <div class="field">
       <label>Keywords Your Customers Search</label>
-      <div class="field-hint">Think about what someone would type into Google to find you</div>
+      <div class="field-hint">What would someone type into Google to find you?</div>
       <textarea id="seoKeywords" rows="3" placeholder="e.g. best dentist in Mumbai, affordable dental clinic Andheri…" maxlength="400"></textarea>
       <div class="char-counter"><span id="seoKeywordsCount">0</span>/400</div>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════
-     SECTION 11 — CONTENT & TIMELINE
-═══════════════════════════════════════════════════════ -->
+<!-- SECTION 11 — CONTENT & TIMELINE -->
 <div class="section-card" data-section="10">
   <div class="card-header">
     <div class="card-icon">
@@ -1217,61 +1170,67 @@ select{
     </div>
     <div class="field">
       <label>Extra Notes or Special Requests <span class="opt">(optional)</span></label>
-      <div class="field-hint">Anything else we should know? Special features, integrations, must-haves?</div>
+      <div class="field-hint">Anything else we should know?</div>
       <textarea id="extraNotes" rows="5" placeholder="Feel free to share anything — the more context the better…" maxlength="800"></textarea>
       <div class="char-counter"><span id="extraNotesCount">0</span>/800</div>
     </div>
   </div>
 </div>
 
-<!-- ── NAV BUTTONS ────────────────────────────────────────── -->
+<!-- NAV BUTTONS -->
 <div class="section-nav" id="sectionNav">
   <button class="btn-prev" id="prevBtn" style="display:none">← Back</button>
   <button class="btn-next" id="nextBtn">Continue →</button>
-  <button class="btn-generate" id="generateBtn" style="display:none">
-    ✦ Send Brief to Northstar Web
-  </button>
+  <button class="btn-generate" id="generateBtn" style="display:none">✦ Generate My Brief</button>
 </div>
 
-<!-- ── OUTPUT ─────────────────────────────────────────────── -->
+<!-- OUTPUT -->
 <div id="output-section">
 
   <!-- SUCCESS CARD -->
   <div style="background:var(--ink);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;">
-    <div style="padding:32px 32px 0;text-align:center;">
+
+    <!-- Header -->
+    <div style="padding:32px 32px 20px;text-align:center;">
       <div style="width:64px;height:64px;background:rgba(37,211,102,.12);border:1.5px solid rgba(37,211,102,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">✓</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--cream);margin-bottom:8px;">Brief ready!</h2>
-      <p style="color:var(--ink-light);font-size:13px;font-weight:300;max-width:420px;margin:0 auto 28px;line-height:1.7;">Your project brief has been compiled. Click the button below to send it directly to Moiz &amp; Anas on WhatsApp — they'll reply within the hour.</p>
+      <p style="color:var(--ink-light);font-size:13px;font-weight:300;max-width:420px;margin:0 auto;line-height:1.7;">Choose how you'd like to send it to Moiz &amp; Anas — pick whichever works best for you.</p>
     </div>
 
-    <!-- SEND TO WHATSAPP — PRIMARY CTA -->
-    <div style="padding:0 32px 28px;display:flex;flex-direction:column;gap:10px;align-items:center;">
-      <button id="waSendBtn" onclick="sendToWhatsApp()" style="
-        width:100%;max-width:420px;
-        background:#25D366;color:#fff;
-        border:none;border-radius:var(--radius-sm);
-        padding:18px 28px;
-        font-family:'Sora',sans-serif;font-size:14px;font-weight:700;
-        letter-spacing:.06em;cursor:pointer;
-        display:flex;align-items:center;justify-content:center;gap:12px;
-        transition:background .2s;
-      ">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M12 2C6.477 2 2 6.477 2 12c0 1.89.522 3.66 1.438 5.168L2 22l4.918-1.292A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2"/></svg>
-        Send My Brief on WhatsApp
+    <!-- ─── SEND METHODS ────────────────────────────────── -->
+    <div class="send-methods">
+      <!-- WhatsApp — spans full width -->
+      <button class="send-btn wa full" id="waSendBtn" onclick="sendToWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M12 2C6.477 2 2 6.477 2 12c0 1.89.522 3.66 1.438 5.168L2 22l4.918-1.292A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2"/></svg>
+        Send on WhatsApp
       </button>
-      <p style="font-size:11px;color:var(--ink-light);font-style:italic;">Opens WhatsApp with your full brief pre-filled · We reply within 1 hour</p>
+      <!-- Email -->
+      <button class="send-btn email" onclick="sendByEmail()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Send by Email
+      </button>
+      <!-- Copy -->
+      <button class="send-btn copy" onclick="copyBrief()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copy to Clipboard
+      </button>
+      <!-- Download -->
+      <button class="send-btn dl" onclick="exportTxt()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download .txt
+      </button>
     </div>
 
-    <!-- DIVIDER -->
-    <div style="border-top:1px solid rgba(255,255,255,.07);padding:20px 32px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <button class="btn-action" onclick="copyBrief()">⎘ Copy Brief</button>
-      <button class="btn-action" onclick="exportTxt()">↓ Download TXT</button>
+    <p class="send-note">WhatsApp opens a pre-filled message · Email opens your mail app with full brief · Or copy and paste anywhere</p>
+
+    <!-- Secondary actions -->
+    <div style="border-top:1px solid rgba(255,255,255,.07);padding:16px 32px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
       <button class="btn-action" onclick="printBrief()">⎙ Print</button>
       <button class="btn-action" onclick="editBrief()">✎ Edit Answers</button>
     </div>
   </div>
 
-  <!-- BRIEF PREVIEW (collapsed by default, expand to see) -->
+  <!-- BRIEF PREVIEW -->
   <div style="margin-bottom:8px;">
     <button onclick="toggleBriefPreview()" id="previewToggle" style="
       width:100%;background:var(--white);border:1.5px solid var(--line);
@@ -1292,10 +1251,9 @@ select{
   </div>
 
 </div>
+</main>
 
-</main><!-- /main-wrap -->
-
-<!-- ── BOTTOM BAR ─────────────────────────────────────────── -->
+<!-- BOTTOM BAR -->
 <div class="bottom-bar">
   <span class="autosave-note">
     <span class="save-dot" id="saveDot"></span>
@@ -1304,42 +1262,34 @@ select{
   <button class="btn-clear" onclick="clearForm()">Clear Form</button>
 </div>
 
-<!-- ── TOAST ──────────────────────────────────────────────── -->
+<!-- TOAST -->
 <div class="toast" id="toast">
   <span class="toast-icon">✦</span>
   <span id="toastMsg">Saved!</span>
 </div>
 
-<!-- ════════════════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════════════ -->
 <script>
-/* ──────────────────────────────────────────
-   CONFIG
-────────────────────────────────────────── */
+/* ── CONFIG ─────────────────────────────────── */
 const SECTIONS = [
-  'Business Info',
-  'Overview',
-  'Services',
-  'Audience',
-  'Goals',
-  'Pages',
-  'Branding',
-  'Competitors',
-  'Contact',
-  'SEO',
-  'Assets',
+  'Business Info','Overview','Services','Audience',
+  'Goals','Pages','Branding','Competitors',
+  'Contact','SEO','Assets',
 ];
 
-let currentSection = 0;
-let serviceCount = 0;
+// Northstar contact info
+const NSW_WA_NUMBER  = '917738486780';   // WhatsApp: +91 77384 86780
+const NSW_EMAIL      = 'hello@northstarweb.co';
 
-/* ──────────────────────────────────────────
-   INIT
-────────────────────────────────────────── */
+let currentSection = 0;
+let serviceCount   = 0;
+
+// Global brief storage — always up to date after generateBrief()
+window.BRIEF_TEXT = '';
+
+/* ── INIT ───────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   buildStepsNav();
-  addService(); // at least one service entry
+  addService();
   setupStyleChips();
   setupCharCounters();
   loadFromStorage();
@@ -1347,9 +1297,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setupAutoSave();
 });
 
-/* ──────────────────────────────────────────
-   STEPS NAV
-────────────────────────────────────────── */
+/* ── STEPS NAV ──────────────────────────────── */
 function buildStepsNav() {
   const nav = document.getElementById('stepsNav');
   SECTIONS.forEach((name, i) => {
@@ -1368,16 +1316,13 @@ function updateStepsNav() {
     btn.classList.toggle('done', i < currentSection);
     btn.querySelector('.step-num').textContent = i < currentSection ? '✓' : (i+1);
   });
-  // scroll active into view
   const active = document.querySelector('.step-btn.active');
   if (active) active.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
 }
 
-/* ──────────────────────────────────────────
-   SECTION VISIBILITY
-────────────────────────────────────────── */
+/* ── SECTION VISIBILITY ─────────────────────── */
 function updateUI() {
-  document.querySelectorAll('.section-card').forEach((card, i) => {
+  document.querySelectorAll('.section-card').forEach((card) => {
     card.classList.toggle('active', parseInt(card.dataset.section) === currentSection);
   });
   updateStepsNav();
@@ -1401,39 +1346,26 @@ function goToSection(idx) {
   updateUI();
 }
 
-/* ──────────────────────────────────────────
-   NAV BUTTON EVENTS
-────────────────────────────────────────── */
+/* ── NAV BUTTONS ────────────────────────────── */
 document.getElementById('nextBtn').addEventListener('click', () => {
-  if (validateCurrentSection()) {
-    currentSection++;
-    updateUI();
-    saveToStorage();
-  }
+  if (validateCurrentSection()) { currentSection++; updateUI(); saveToStorage(); }
 });
 document.getElementById('prevBtn').addEventListener('click', () => {
   currentSection--;
   updateUI();
 });
 document.getElementById('generateBtn').addEventListener('click', () => {
-  if (validateCurrentSection()) {
-    saveToStorage();
-    generateBrief();
-  }
+  if (validateCurrentSection()) { saveToStorage(); generateBrief(); }
 });
 
-/* ──────────────────────────────────────────
-   PROGRESS
-────────────────────────────────────────── */
+/* ── PROGRESS ───────────────────────────────── */
 function updateProgress() {
   const pct = Math.round((currentSection / (SECTIONS.length - 1)) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressPct').textContent = pct + '%';
 }
 
-/* ──────────────────────────────────────────
-   SERVICES
-────────────────────────────────────────── */
+/* ── SERVICES ───────────────────────────────── */
 function addService() {
   serviceCount++;
   const container = document.getElementById('servicesContainer');
@@ -1470,18 +1402,14 @@ function removeService(id) {
 
 document.getElementById('addServiceBtn').addEventListener('click', addService);
 
-/* ──────────────────────────────────────────
-   STYLE CHIPS
-────────────────────────────────────────── */
+/* ── STYLE CHIPS ────────────────────────────── */
 function setupStyleChips() {
   document.querySelectorAll('.style-chip').forEach(chip => {
     chip.addEventListener('click', () => chip.classList.toggle('selected'));
   });
 }
 
-/* ──────────────────────────────────────────
-   COLOR ADD BUTTON
-────────────────────────────────────────── */
+/* ── COLOR ADD ──────────────────────────────── */
 document.getElementById('addPrefColor').addEventListener('click', () => {
   const row = document.getElementById('preferredColors');
   const swatches = row.querySelectorAll('.color-swatch-wrap');
@@ -1495,9 +1423,7 @@ document.getElementById('addPrefColor').addEventListener('click', () => {
   row.insertBefore(wrap, document.getElementById('addPrefColor'));
 });
 
-/* ──────────────────────────────────────────
-   CHAR COUNTERS
-────────────────────────────────────────── */
+/* ── CHAR COUNTERS ──────────────────────────── */
 function setupCharCounters() {
   const pairs = [
     ['bizDesc','bizDescCount'],['bizProblem','bizProblemCount'],
@@ -1514,13 +1440,10 @@ function setupCharCounters() {
   });
 }
 
-/* ──────────────────────────────────────────
-   VALIDATION
-────────────────────────────────────────── */
+/* ── VALIDATION ─────────────────────────────── */
 function validateCurrentSection() {
   let valid = true;
   if (currentSection === 0) {
-    // Business Name required
     const bn = document.getElementById('bizName');
     if (!bn.value.trim()) {
       bn.classList.add('error');
@@ -1530,7 +1453,6 @@ function validateCurrentSection() {
       bn.classList.remove('error');
       document.getElementById('err-bizName').classList.remove('show');
     }
-    // Email required
     const em = document.getElementById('bizEmail');
     if (!em.value.trim()) {
       em.classList.add('error');
@@ -1543,71 +1465,53 @@ function validateCurrentSection() {
   return valid;
 }
 
-/* ──────────────────────────────────────────
-   STORAGE
-────────────────────────────────────────── */
-function collectFormData() {
-  // Services
-  const services = [];
-  document.querySelectorAll('.service-entry').forEach(entry => {
-    const id = entry.dataset.svcId;
-    const name  = (entry.querySelector(`[data-field="name"]`)?.value || '').trim();
-    const desc  = (entry.querySelector(`[data-field="desc"]`)?.value || '').trim();
-    const bene  = (entry.querySelector(`[data-field="benefits"]`)?.value || '').trim();
-    const price = (entry.querySelector(`[data-field="price"]`)?.value || '').trim();
-    services.push({name, desc, bene, price});
-  });
-
-  // Checkboxes
-  const goals = [...document.querySelectorAll('#websiteGoals input:checked')].map(i=>i.value);
-  const pages = [...document.querySelectorAll('#requiredPages input:checked')].map(i=>i.value);
-  const assets= [...document.querySelectorAll('.card-body .check-group input:checked')].filter(i=>i.closest('[data-section="10"]')).map(i=>i.value);
-
-  // Style chips
-  const styles = [...document.querySelectorAll('.style-chip.selected input')].map(i=>i.value);
-  if (styles.length === 0) {
-    [...document.querySelectorAll('.style-chip.selected')].forEach(c=>{
-      const t = c.textContent.trim(); if(t) styles.push(t);
-    });
-  }
-
-  // Colors
-  const prefColors = [...document.querySelectorAll('#preferredColors input[type=color]')].map(i=>i.value);
-
-  return {
-    bizName: g('bizName'), ownerName: g('ownerName'), bizEmail: g('bizEmail'),
-    bizPhone: g('bizPhone'), bizAddress: g('bizAddress'), industry: g('industry'),
-    yearsInBiz: g('yearsInBiz'), domain: g('domain'), existingUrl: g('existingUrl'),
-    bizDesc: g('bizDesc'), bizProblem: g('bizProblem'), bizDiff: g('bizDiff'),
-    mission: g('mission'),
-    services,
-    custType: g('custType'), ageRange: g('ageRange'), custLocation: g('custLocation'),
-    custPain: g('custPain'), custGoals: g('custGoals'),
-    goals, goalsOther: g('goalsOther'),
-    pages, customPages: g('customPages'),
-    styles, prefColors, avoidColors: g('avoidColors'), hasLogo: g('hasLogo'),
-    inspiration: g('inspiration'),
-    comp1: g('comp1'), comp2: g('comp2'), comp3: g('comp3'),
-    compLike: g('compLike'), compDislike: g('compDislike'),
-    pubEmail: g('pubEmail'), pubPhone: g('pubPhone'), whatsapp: g('whatsapp'),
-    pubAddress: g('pubAddress'),
-    smInstagram: g('smInstagram'), smFacebook: g('smFacebook'),
-    smLinkedin: g('smLinkedin'), smOther: g('smOther'),
-    seoCities: g('seoCities'), seoServices: g('seoServices'), seoKeywords: g('seoKeywords'),
-    assets, copyWriter: g('copyWriter'), budget: g('budget'),
-    launchDate: g('launchDate'), extraNotes: g('extraNotes'),
-  };
-}
-
+/* ── DATA COLLECTION ────────────────────────── */
 function g(id) {
   const el = document.getElementById(id);
   return el ? el.value.trim() : '';
 }
 
+function collectFormData() {
+  const services = [];
+  document.querySelectorAll('.service-entry').forEach(entry => {
+    const name  = (entry.querySelector(`[data-field="name"]`)?.value  || '').trim();
+    const desc  = (entry.querySelector(`[data-field="desc"]`)?.value  || '').trim();
+    const bene  = (entry.querySelector(`[data-field="benefits"]`)?.value || '').trim();
+    const price = (entry.querySelector(`[data-field="price"]`)?.value || '').trim();
+    services.push({name, desc, bene, price});
+  });
+
+  const goals  = [...document.querySelectorAll('#websiteGoals input:checked')].map(i=>i.value);
+  const pages  = [...document.querySelectorAll('#requiredPages input:checked')].map(i=>i.value);
+  const assets = [...document.querySelectorAll('[data-section="10"] .check-group input:checked')].map(i=>i.value);
+  const styles = [...document.querySelectorAll('.style-chip.selected')].map(c => c.querySelector('input')?.value || c.textContent.trim());
+  const prefColors = [...document.querySelectorAll('#preferredColors input[type=color]')].map(i=>i.value);
+
+  return {
+    bizName:g('bizName'), ownerName:g('ownerName'), bizEmail:g('bizEmail'),
+    bizPhone:g('bizPhone'), bizAddress:g('bizAddress'), industry:g('industry'),
+    yearsInBiz:g('yearsInBiz'), domain:g('domain'), existingUrl:g('existingUrl'),
+    bizDesc:g('bizDesc'), bizProblem:g('bizProblem'), bizDiff:g('bizDiff'), mission:g('mission'),
+    services,
+    custType:g('custType'), ageRange:g('ageRange'), custLocation:g('custLocation'),
+    custPain:g('custPain'), custGoals:g('custGoals'),
+    goals, goalsOther:g('goalsOther'),
+    pages, customPages:g('customPages'),
+    styles, prefColors, avoidColors:g('avoidColors'), hasLogo:g('hasLogo'), inspiration:g('inspiration'),
+    comp1:g('comp1'), comp2:g('comp2'), comp3:g('comp3'),
+    compLike:g('compLike'), compDislike:g('compDislike'),
+    pubEmail:g('pubEmail'), pubPhone:g('pubPhone'), whatsapp:g('whatsapp'), pubAddress:g('pubAddress'),
+    smInstagram:g('smInstagram'), smFacebook:g('smFacebook'), smLinkedin:g('smLinkedin'), smOther:g('smOther'),
+    seoCities:g('seoCities'), seoServices:g('seoServices'), seoKeywords:g('seoKeywords'),
+    assets, copyWriter:g('copyWriter'), budget:g('budget'),
+    launchDate:g('launchDate'), extraNotes:g('extraNotes'),
+  };
+}
+
+/* ── STORAGE ────────────────────────────────── */
 function saveToStorage() {
   try {
-    const data = collectFormData();
-    localStorage.setItem('nsw_brief_v1', JSON.stringify(data));
+    localStorage.setItem('nsw_brief_v1', JSON.stringify(collectFormData()));
     flashSave();
   } catch(e){}
 }
@@ -1618,26 +1522,16 @@ function loadFromStorage() {
     if (!raw) return;
     const d = JSON.parse(raw);
     const set = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.value=val; };
-    set('bizName',d.bizName); set('ownerName',d.ownerName); set('bizEmail',d.bizEmail);
-    set('bizPhone',d.bizPhone); set('bizAddress',d.bizAddress); set('industry',d.industry);
-    set('yearsInBiz',d.yearsInBiz); set('domain',d.domain); set('existingUrl',d.existingUrl);
-    set('bizDesc',d.bizDesc); set('bizProblem',d.bizProblem); set('bizDiff',d.bizDiff);
-    set('mission',d.mission);
-    set('custType',d.custType); set('ageRange',d.ageRange); set('custLocation',d.custLocation);
-    set('custPain',d.custPain); set('custGoals',d.custGoals);
-    set('goalsOther',d.goalsOther); set('customPages',d.customPages);
-    set('avoidColors',d.avoidColors); set('hasLogo',d.hasLogo); set('inspiration',d.inspiration);
-    set('comp1',d.comp1); set('comp2',d.comp2); set('comp3',d.comp3);
-    set('compLike',d.compLike); set('compDislike',d.compDislike);
-    set('pubEmail',d.pubEmail); set('pubPhone',d.pubPhone); set('whatsapp',d.whatsapp);
-    set('pubAddress',d.pubAddress);
-    set('smInstagram',d.smInstagram); set('smFacebook',d.smFacebook);
-    set('smLinkedin',d.smLinkedin); set('smOther',d.smOther);
-    set('seoCities',d.seoCities); set('seoServices',d.seoServices); set('seoKeywords',d.seoKeywords);
-    set('copyWriter',d.copyWriter); set('budget',d.budget);
-    set('launchDate',d.launchDate); set('extraNotes',d.extraNotes);
+    ['bizName','ownerName','bizEmail','bizPhone','bizAddress','industry','yearsInBiz',
+     'domain','existingUrl','bizDesc','bizProblem','bizDiff','mission',
+     'custType','ageRange','custLocation','custPain','custGoals',
+     'goalsOther','customPages','avoidColors','hasLogo','inspiration',
+     'comp1','comp2','comp3','compLike','compDislike',
+     'pubEmail','pubPhone','whatsapp','pubAddress',
+     'smInstagram','smFacebook','smLinkedin','smOther',
+     'seoCities','seoServices','seoKeywords',
+     'copyWriter','budget','launchDate','extraNotes'].forEach(id => set(id, d[id]));
 
-    // services
     if (d.services && d.services.length) {
       document.getElementById('servicesContainer').innerHTML = '';
       serviceCount = 0;
@@ -1646,7 +1540,7 @@ function loadFromStorage() {
         const id = serviceCount;
         const entry = document.querySelector(`.service-entry[data-svc-id="${id}"]`);
         if (!entry) return;
-        const fn = (f) => entry.querySelector(`[data-field="${f}"]`);
+        const fn = f => entry.querySelector(`[data-field="${f}"]`);
         if(fn('name')) fn('name').value = svc.name||'';
         if(fn('desc')) fn('desc').value = svc.desc||'';
         if(fn('benefits')) fn('benefits').value = svc.bene||'';
@@ -1654,48 +1548,46 @@ function loadFromStorage() {
       });
     }
 
-    // checkboxes — goals
     if(d.goals) d.goals.forEach(v => {
       const inp = document.querySelector(`#websiteGoals input[value="${v}"]`);
-      if(inp){ inp.checked=true; inp.closest('.check-item')?.classList.add('selected'); }
+      if(inp) inp.checked = true;
     });
-    // pages
     if(d.pages) d.pages.forEach(v => {
       const inp = document.querySelector(`#requiredPages input[value="${v}"]`);
-      if(inp) inp.checked=true;
+      if(inp) inp.checked = true;
     });
-    // styles
     if(d.styles) d.styles.forEach(v => {
       document.querySelectorAll('.style-chip').forEach(chip => {
-        if(chip.textContent.trim().includes(v)) chip.classList.add('selected');
+        if((chip.querySelector('input')?.value || chip.textContent.trim()) === v)
+          chip.classList.add('selected');
       });
     });
+    if(d.assets) d.assets.forEach(v => {
+      const inp = document.querySelector(`[data-section="10"] .check-group input[value="${v}"]`);
+      if(inp) inp.checked = true;
+    });
 
-    // update counters
     ['bizDesc','bizProblem','bizDiff','mission','custPain','custGoals',
-     'compLike','compDislike','seoKeywords','extraNotes'].forEach(id=>{
-      const el=document.getElementById(id);
-      const ct=document.getElementById(id+'Count');
-      if(el&&ct) ct.textContent=el.value.length;
+     'compLike','compDislike','seoKeywords','extraNotes'].forEach(id => {
+      const el = document.getElementById(id);
+      const ct = document.getElementById(id+'Count');
+      if(el && ct) ct.textContent = el.value.length;
     });
 
     showToast('Previous progress loaded ✦');
   } catch(e){}
 }
 
-/* ──────────────────────────────────────────
-   AUTO-SAVE
-────────────────────────────────────────── */
+/* ── AUTO-SAVE ──────────────────────────────── */
 function setupAutoSave() {
   setInterval(saveToStorage, 30000);
-  // save on any input change
   document.querySelectorAll('input,textarea,select').forEach(el => {
     el.addEventListener('change', saveToStorage);
   });
 }
 
 function flashSave() {
-  const dot  = document.getElementById('saveDot');
+  const dot = document.getElementById('saveDot');
   const note = document.getElementById('saveNote');
   dot.style.background = 'var(--gold)';
   note.textContent = 'Saved just now';
@@ -1705,23 +1597,18 @@ function flashSave() {
   }, 2000);
 }
 
-/* ──────────────────────────────────────────
-   GENERATE BRIEF
-────────────────────────────────────────── */
-function generateBrief() {
-  const d = collectFormData();
+/* ── GENERATE BRIEF ─────────────────────────── */
+function buildBriefText(d) {
   const line = (label, val) => val ? `${label.padEnd(28,' ')}${val}\n` : '';
   const sect = (title) => `\n${'━'.repeat(60)}\n  ${title.toUpperCase()}\n${'━'.repeat(60)}\n`;
-  const wrap = (text) => text || '—';
 
   let b = '';
   b += `╔${'═'.repeat(58)}╗\n`;
   b += `║${'  CLIENT WEBSITE PROJECT BRIEF'.padEnd(58)}║\n`;
-  b += `║${'  Prepared by Northstar Web  ·  northstarweb.co'.padEnd(58)}║\n`;
+  b += `║${'  Northstar Web  ·  northstarweb.co'.padEnd(58)}║\n`;
   b += `╚${'═'.repeat(58)}╝\n`;
   b += `\nGenerated: ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
 
-  // 1. Business
   b += sect('1. Business Information');
   b += line('Business Name:', d.bizName);
   b += line('Owner / Contact:', d.ownerName);
@@ -1733,24 +1620,21 @@ function generateBrief() {
   b += line('Desired Domain:', d.domain);
   b += line('Existing Website:', d.existingUrl);
 
-  // 2. Overview
   b += sect('2. Business Overview');
-  if(d.bizDesc)    b += `ABOUT THE BUSINESS\n${wrap(d.bizDesc)}\n\n`;
-  if(d.bizProblem) b += `PROBLEM THEY SOLVE\n${wrap(d.bizProblem)}\n\n`;
-  if(d.bizDiff)    b += `COMPETITIVE ADVANTAGE\n${wrap(d.bizDiff)}\n\n`;
-  if(d.mission)    b += `MISSION\n${wrap(d.mission)}\n`;
+  if(d.bizDesc)    b += `ABOUT THE BUSINESS\n${d.bizDesc}\n\n`;
+  if(d.bizProblem) b += `PROBLEM THEY SOLVE\n${d.bizProblem}\n\n`;
+  if(d.bizDiff)    b += `COMPETITIVE ADVANTAGE\n${d.bizDiff}\n\n`;
+  if(d.mission)    b += `MISSION\n${d.mission}\n`;
 
-  // 3. Services
   b += sect('3. Services & Products');
   d.services.forEach((s, i) => {
     if (!s.name) return;
     b += `\nSERVICE ${i+1}: ${s.name}\n`;
-    if(s.desc)   b += `  Description:  ${s.desc}\n`;
-    if(s.bene)   b += `  Key Benefits: ${s.bene}\n`;
-    if(s.price)  b += `  Pricing:      ${s.price}\n`;
+    if(s.desc)  b += `  Description:  ${s.desc}\n`;
+    if(s.bene)  b += `  Key Benefits: ${s.bene}\n`;
+    if(s.price) b += `  Pricing:      ${s.price}\n`;
   });
 
-  // 4. Audience
   b += sect('4. Target Audience');
   b += line('Customer Type:', d.custType);
   b += line('Age Range:', d.ageRange);
@@ -1758,34 +1642,27 @@ function generateBrief() {
   if(d.custPain)  b += `\nPAIN POINTS\n${d.custPain}\n`;
   if(d.custGoals) b += `\nCUSTOMER GOALS\n${d.custGoals}\n`;
 
-  // 5. Goals
   b += sect('5. Website Goals');
   if(d.goals.length) b += d.goals.map(g=>`  ✔ ${g}`).join('\n') + '\n';
   if(d.goalsOther)   b += `  + ${d.goalsOther}\n`;
 
-  // 6. Pages
   b += sect('6. Required Pages');
   if(d.pages.length) b += d.pages.map(p=>`  ✔ ${p}`).join('\n') + '\n';
   if(d.customPages)  b += `  + Custom: ${d.customPages}\n`;
 
-  // 7. Branding
   b += sect('7. Branding & Visual Style');
-  if(d.styles.length)    b += line('Style Direction:', d.styles.join(', '));
-  if(d.prefColors.length)b += line('Brand Colours:', d.prefColors.join(', '));
-  if(d.avoidColors)      b += line('Colours to Avoid:', d.avoidColors);
-  if(d.hasLogo)          b += line('Logo Status:', d.hasLogo);
-  if(d.inspiration)      b += line('Site Inspiration:', d.inspiration);
+  if(d.styles.length)     b += line('Style Direction:', d.styles.join(', '));
+  if(d.prefColors.length) b += line('Brand Colours:', d.prefColors.join(', '));
+  if(d.avoidColors)       b += line('Colours to Avoid:', d.avoidColors);
+  if(d.hasLogo)           b += line('Logo Status:', d.hasLogo);
+  if(d.inspiration)       b += line('Site Inspiration:', d.inspiration);
 
-  // 8. Competitors
   b += sect('8. Competitor Analysis');
   const comps = [d.comp1, d.comp2, d.comp3].filter(Boolean);
-  if(comps.length) {
-    comps.forEach((c,i) => b += `  Competitor ${i+1}: ${c}\n`);
-  }
+  if(comps.length) comps.forEach((c,i) => b += `  Competitor ${i+1}: ${c}\n`);
   if(d.compLike)    b += `\nWHAT THEY LIKE\n${d.compLike}\n`;
-  if(d.compDislike) b += `\nWHAT THEY WANT TO IMPROVE ON\n${d.compDislike}\n`;
+  if(d.compDislike) b += `\nWHAT TO IMPROVE ON\n${d.compDislike}\n`;
 
-  // 9. Contact
   b += sect('9. Website Contact Details');
   b += line('Public Email:', d.pubEmail);
   b += line('Public Phone:', d.pubPhone);
@@ -1797,22 +1674,18 @@ function generateBrief() {
   b += line('  LinkedIn:', d.smLinkedin);
   b += line('  Other:', d.smOther);
 
-  // 10. SEO
   b += sect('10. SEO & Location Targeting');
   b += line('Cities / Areas Served:', d.seoCities);
   b += line('Main Services to Rank:', d.seoServices);
   if(d.seoKeywords) b += `\nKEYWORDS\n${d.seoKeywords}\n`;
 
-  // 11. Assets & Project Scope
   b += sect('11. Content, Assets & Project Scope');
-  const assets11 = [...document.querySelectorAll('[data-section="10"] .check-group input:checked')].map(i=>i.value);
-  if(assets11.length) b += line('Assets Available:', assets11.join(', '));
+  if(d.assets.length) b += line('Assets Available:', d.assets.join(', '));
   b += line('Copy / Content:', d.copyWriter);
-  b += line('Budget Range:', d.budget);
+  b += line('Budget / Package:', d.budget);
   b += line('Desired Launch:', d.launchDate);
   if(d.extraNotes) b += `\nADDITIONAL NOTES\n${d.extraNotes}\n`;
 
-  // AI Prompt
   b += `\n${'═'.repeat(60)}\n  AI WEBSITE GENERATION INSTRUCTIONS\n${'═'.repeat(60)}\n\n`;
   b += `Using the information above, build a professional, conversion-focused website for ${d.bizName||'this business'}.\n\n`;
   b += `The site should:\n`;
@@ -1828,26 +1701,33 @@ function generateBrief() {
   b += `Prioritise clean code, excellent UX, and a design that converts visitors into clients.\n`;
 
   b += `\n${'─'.repeat(60)}\nPrepared for ${d.bizName||'Client'} by Northstar Web\n`;
-  b += `Contact: hello@northstarweb.co\n${'─'.repeat(60)}\n`;
+  b += `Contact: ${NSW_EMAIL}\n${'─'.repeat(60)}\n`;
 
-  document.getElementById('briefOutput').textContent = b;
+  return b;
+}
+
+function generateBrief() {
+  const d = collectFormData();
+  const text = buildBriefText(d);
+
+  // Store globally so all export functions can access without regenerating
+  window.BRIEF_TEXT = text;
+
+  document.getElementById('briefOutput').textContent = text;
   document.getElementById('output-section').style.display = 'block';
   setTimeout(() => {
     document.getElementById('output-section').scrollIntoView({behavior:'smooth',block:'start'});
   }, 100);
-  showToast('Brief ready — send it on WhatsApp! ✦');
+  showToast('Brief ready — choose how to send it! ✦');
   saveToStorage();
 }
 
-/* ──────────────────────────────────────────
-   SEND TO WHATSAPP
-────────────────────────────────────────── */
+/* ── SEND: WHATSAPP ─────────────────────────── */
 function sendToWhatsApp() {
   const d = collectFormData();
   const btn = document.getElementById('waSendBtn');
 
-  // Build a concise WhatsApp message — WA has a URL length limit
-  // so we send a punchy summary; the full brief goes via copy/TXT if needed
+  // Build a punchy summary (WA URLs have ~2000 char practical limit on some devices)
   let msg = `✦ NEW CLIENT BRIEF — Northstar Web\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   msg += `👤 *Client:* ${d.bizName || '—'}\n`;
@@ -1855,107 +1735,166 @@ function sendToWhatsApp() {
   msg += `📧 *Email:* ${d.bizEmail || '—'}\n`;
   msg += `📞 *Phone:* ${d.bizPhone || '—'}\n`;
   msg += `🏢 *Industry:* ${d.industry || '—'}\n`;
-  if (d.domain) msg += `🌐 *Domain:* ${d.domain}\n`;
-  msg += `\n`;
+  if(d.domain) msg += `🌐 *Domain:* ${d.domain}\n`;
+  msg += '\n';
+  if(d.budget) msg += `💰 *Package:* ${d.budget}\n\n`;
+  if(d.bizDesc) msg += `📋 *About:*\n${d.bizDesc.slice(0,200)}${d.bizDesc.length>200?'…':''}\n\n`;
+  if(d.bizDiff) msg += `⭐ *Unique value:*\n${d.bizDiff.slice(0,150)}${d.bizDiff.length>150?'…':''}\n\n`;
 
-  // Package
-  if (d.budget) {
-    msg += `💰 *Package Interest:*\n${d.budget}\n\n`;
-  }
-
-  // Overview
-  if (d.bizDesc) {
-    msg += `📋 *About the Business:*\n${d.bizDesc.substring(0, 200)}${d.bizDesc.length > 200 ? '…' : ''}\n\n`;
-  }
-  if (d.bizDiff) {
-    msg += `⭐ *What makes them unique:*\n${d.bizDiff.substring(0, 150)}${d.bizDiff.length > 150 ? '…' : ''}\n\n`;
-  }
-
-  // Services
-  const validSvcs = d.services.filter(s => s.name);
-  if (validSvcs.length) {
-    msg += `🛠 *Services:* ${validSvcs.map(s => s.name).join(', ')}\n\n`;
-  }
-
-  // Goals & Pages
-  if (d.goals.length) msg += `🎯 *Website Goals:* ${d.goals.join(', ')}\n`;
-  if (d.pages.length) msg += `📄 *Pages Needed:* ${d.pages.join(', ')}\n`;
-  msg += `\n`;
-
-  // Style
-  if (d.styles.length) msg += `🎨 *Style:* ${d.styles.join(', ')}\n`;
-  if (d.hasLogo) msg += `🖼 *Logo:* ${d.hasLogo}\n`;
-  msg += `\n`;
-
-  // SEO
-  if (d.seoCities) msg += `📍 *Cities / Areas:* ${d.seoCities}\n`;
-  if (d.seoServices) msg += `🔍 *Services to rank:* ${d.seoServices}\n`;
-  msg += `\n`;
-
-  // Contact for site
-  if (d.pubPhone || d.pubEmail) {
-    msg += `📞 *Public Contact:* ${[d.pubPhone, d.pubEmail].filter(Boolean).join(' · ')}\n`;
-  }
-  if (d.whatsapp) msg += `💬 *WhatsApp on site:* ${d.whatsapp}\n`;
-  if (d.smInstagram) msg += `📸 *Instagram:* ${d.smInstagram}\n`;
-  msg += `\n`;
-
-  // Assets & timeline
-  const assets11 = [...document.querySelectorAll('[data-section="10"] .check-group input:checked')].map(i=>i.value);
-  if (assets11.length) msg += `📁 *Assets available:* ${assets11.join(', ')}\n`;
-  if (d.copyWriter) msg += `✍️ *Copy:* ${d.copyWriter}\n`;
-  if (d.launchDate) msg += `📅 *Launch target:* ${d.launchDate}\n`;
-  if (d.extraNotes) msg += `\n📝 *Extra notes:*\n${d.extraNotes.substring(0, 200)}${d.extraNotes.length > 200 ? '…' : ''}\n`;
-
+  const validSvcs = d.services.filter(s=>s.name);
+  if(validSvcs.length) msg += `🛠 *Services:* ${validSvcs.map(s=>s.name).join(', ')}\n\n`;
+  if(d.goals.length) msg += `🎯 *Goals:* ${d.goals.join(', ')}\n`;
+  if(d.pages.length) msg += `📄 *Pages:* ${d.pages.join(', ')}\n`;
+  msg += '\n';
+  if(d.styles.length) msg += `🎨 *Style:* ${d.styles.join(', ')}\n`;
+  if(d.hasLogo) msg += `🖼 *Logo:* ${d.hasLogo}\n`;
+  msg += '\n';
+  if(d.seoCities) msg += `📍 *Areas:* ${d.seoCities}\n`;
+  if(d.seoServices) msg += `🔍 *Rank for:* ${d.seoServices}\n`;
+  msg += '\n';
+  if(d.pubPhone||d.pubEmail) msg += `📞 *Public contact:* ${[d.pubPhone,d.pubEmail].filter(Boolean).join(' · ')}\n`;
+  if(d.whatsapp) msg += `💬 *WhatsApp:* ${d.whatsapp}\n`;
+  if(d.smInstagram) msg += `📸 *Instagram:* ${d.smInstagram}\n`;
+  msg += '\n';
+  if(d.assets.length) msg += `📁 *Assets:* ${d.assets.join(', ')}\n`;
+  if(d.copyWriter) msg += `✍️ *Copy:* ${d.copyWriter}\n`;
+  if(d.launchDate) msg += `📅 *Launch:* ${d.launchDate}\n`;
+  if(d.extraNotes) msg += `\n📝 *Notes:*\n${d.extraNotes.slice(0,200)}${d.extraNotes.length>200?'…':''}\n`;
   msg += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  msg += `_Sent via Northstar Web Client Brief Form_`;
+  msg += `_Full brief available on request · Sent via Northstar Web Brief Form_`;
 
   const encoded = encodeURIComponent(msg);
-  // Moiz's WhatsApp — +91 77384 86780
-  const waUrl = `https://wa.me/917738486780?text=${encoded}`;
+  // Enforce safe URL length — WA web has ~4096 char limit on the full URL
+  if (encoded.length > 3800) {
+    showToast('Brief is long — opening with summary. Use Email for the full version.');
+  }
 
-  btn.textContent = '✓ Opening WhatsApp…';
-  btn.style.background = '#128C7E';
+  const waUrl = `https://wa.me/${NSW_WA_NUMBER}?text=${encoded}`;
+
+  btn.style.opacity = '0.7';
+  btn.style.pointerEvents = 'none';
+
+  window.open(waUrl, '_blank');
 
   setTimeout(() => {
-    window.open(waUrl, '_blank');
-    btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M12 2C6.477 2 2 6.477 2 12c0 1.89.522 3.66 1.438 5.168L2 22l4.918-1.292A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2"/></svg> Send My Brief on WhatsApp`;
-    btn.style.background = '#25D366';
-  }, 700);
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    showToast('WhatsApp opened! ✦');
+  }, 1200);
 }
 
-/* ──────────────────────────────────────────
-   TOGGLE BRIEF PREVIEW
-────────────────────────────────────────── */
-function toggleBriefPreview() {
-  const wrap  = document.getElementById('briefPreviewWrap');
-  const arrow = document.getElementById('previewArrow');
-  const open  = wrap.style.display === 'none' || wrap.style.display === '';
-  wrap.style.display  = open ? 'block' : 'none';
-  arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0)';
+/* ── SEND: EMAIL ────────────────────────────── */
+function sendByEmail() {
+  // Ensure brief is generated
+  if (!window.BRIEF_TEXT) {
+    const d = collectFormData();
+    window.BRIEF_TEXT = buildBriefText(d);
+  }
+
+  const d = collectFormData();
+  const subject = encodeURIComponent(`Website Brief — ${d.bizName || 'New Client'} | Northstar Web`);
+
+  // mailto body has a practical limit (~2000 chars in most clients)
+  // We send a clean version; user can paste the full TXT if needed
+  const bodyLines = [];
+  bodyLines.push(`Hi Moiz & Anas,`);
+  bodyLines.push(``);
+  bodyLines.push(`Please find my website project brief below.`);
+  bodyLines.push(``);
+  bodyLines.push(`━━━━━━━━━━━━━━━━━━━━━━━━`);
+  bodyLines.push(`Business:   ${d.bizName}`);
+  bodyLines.push(`Contact:    ${d.ownerName}`);
+  bodyLines.push(`Email:      ${d.bizEmail}`);
+  bodyLines.push(`Phone:      ${d.bizPhone}`);
+  bodyLines.push(`Industry:   ${d.industry}`);
+  if(d.budget)     bodyLines.push(`Package:    ${d.budget}`);
+  if(d.launchDate) bodyLines.push(`Launch:     ${d.launchDate}`);
+  bodyLines.push(`━━━━━━━━━━━━━━━━━━━━━━━━`);
+  bodyLines.push(``);
+  if(d.bizDesc)    bodyLines.push(`About:\n${d.bizDesc}\n`);
+  if(d.bizDiff)    bodyLines.push(`Unique value:\n${d.bizDiff}\n`);
+  const validSvcs = d.services.filter(s=>s.name);
+  if(validSvcs.length) bodyLines.push(`Services: ${validSvcs.map(s=>s.name).join(', ')}\n`);
+  if(d.goals.length) bodyLines.push(`Goals: ${d.goals.join(', ')}\n`);
+  if(d.pages.length) bodyLines.push(`Pages: ${d.pages.join(', ')}\n`);
+  if(d.styles.length) bodyLines.push(`Style: ${d.styles.join(', ')}`);
+  if(d.seoCities) bodyLines.push(`Areas: ${d.seoCities}`);
+  if(d.seoServices) bodyLines.push(`Rank for: ${d.seoServices}`);
+  if(d.extraNotes) bodyLines.push(`\nNotes:\n${d.extraNotes}`);
+  bodyLines.push(``);
+  bodyLines.push(`Full detailed brief is attached / available on request.`);
+  bodyLines.push(``);
+  bodyLines.push(`Thanks,`);
+  bodyLines.push(`${d.ownerName || d.bizName}`);
+
+  const body = encodeURIComponent(bodyLines.join('\n'));
+  const mailUrl = `mailto:${NSW_EMAIL}?subject=${subject}&body=${body}`;
+
+  window.location.href = mailUrl;
+  showToast('Email app opening… ✦');
+
+  // Trigger TXT download automatically so they can attach the full brief
+  setTimeout(() => {
+    exportTxt();
+    showToast('Full brief downloaded — attach it to your email! ✦');
+  }, 1500);
 }
 
-/* ──────────────────────────────────────────
-   EXPORT FUNCTIONS
-────────────────────────────────────────── */
+/* ── COPY ───────────────────────────────────── */
 function copyBrief() {
-  const text = document.getElementById('briefOutput').textContent;
-  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard ✦'));
+  if (!window.BRIEF_TEXT) {
+    window.BRIEF_TEXT = buildBriefText(collectFormData());
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(window.BRIEF_TEXT)
+      .then(() => showToast('Full brief copied to clipboard ✦'))
+      .catch(() => fallbackCopy());
+  } else {
+    fallbackCopy();
+  }
 }
 
+function fallbackCopy() {
+  const ta = document.createElement('textarea');
+  ta.value = window.BRIEF_TEXT;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('Full brief copied ✦');
+  } catch(e) {
+    showToast('Copy failed — please use Download instead.');
+  }
+  document.body.removeChild(ta);
+}
+
+/* ── DOWNLOAD TXT ───────────────────────────── */
 function exportTxt() {
-  const text = document.getElementById('briefOutput').textContent;
-  const biz  = document.getElementById('bizName')?.value || 'client';
-  const blob = new Blob([text], {type:'text/plain'});
+  if (!window.BRIEF_TEXT) {
+    window.BRIEF_TEXT = buildBriefText(collectFormData());
+  }
+  const biz  = g('bizName') || 'client';
+  const blob = new Blob([window.BRIEF_TEXT], {type:'text/plain;charset=utf-8'});
   const a    = document.createElement('a');
   a.href     = URL.createObjectURL(blob);
   a.download = `northstar-brief-${biz.toLowerCase().replace(/\s+/g,'-')}.txt`;
+  document.body.appendChild(a);
   a.click();
-  showToast('Downloaded as TXT ✦');
+  document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+  showToast('Downloaded as .txt ✦');
 }
 
-function printBrief() { window.print(); }
+/* ── PRINT ──────────────────────────────────── */
+function printBrief() {
+  // Make sure preview is visible for print
+  document.getElementById('briefPreviewWrap').style.display = 'block';
+  window.print();
+}
 
+/* ── EDIT ───────────────────────────────────── */
 function editBrief() {
   document.getElementById('output-section').style.display = 'none';
   currentSection = 0;
@@ -1963,25 +1902,30 @@ function editBrief() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ──────────────────────────────────────────
-   CLEAR FORM
-────────────────────────────────────────── */
+/* ── TOGGLE PREVIEW ─────────────────────────── */
+function toggleBriefPreview() {
+  const wrap  = document.getElementById('briefPreviewWrap');
+  const arrow = document.getElementById('previewArrow');
+  const open  = wrap.style.display === 'none' || wrap.style.display === '';
+  wrap.style.display    = open ? 'block' : 'none';
+  arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0)';
+}
+
+/* ── CLEAR FORM ─────────────────────────────── */
 function clearForm() {
   if (!confirm('Clear all form data? This cannot be undone.')) return;
   localStorage.removeItem('nsw_brief_v1');
   location.reload();
 }
 
-/* ──────────────────────────────────────────
-   TOAST
-────────────────────────────────────────── */
+/* ── TOAST ──────────────────────────────────── */
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
 </script>
 </body>
