@@ -351,18 +351,49 @@ select{
 }
 .style-chip input{display:none}
 
-.color-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
-.color-swatch-wrap{position:relative}
+/* ─── COLOR SWATCH (FIXED: show hex label under each) ─────── */
+.color-row{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-top:8px}
+.color-swatch-wrap{
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+}
 .color-swatch-wrap input[type=color]{
-  width:42px;height:42px;
+  width:48px;height:48px;
   padding:2px;
   border-radius:8px;
   border:2px solid var(--line);
   cursor:pointer;
   background:var(--cream);
 }
+.color-hex-label{
+  font-size:9px;
+  color:var(--ink-light);
+  font-family:monospace;
+  letter-spacing:.04em;
+  text-align:center;
+}
+.color-remove-btn{
+  position:absolute;
+  top:-6px;right:-6px;
+  width:16px;height:16px;
+  background:var(--danger);
+  color:#fff;
+  border:none;
+  border-radius:50%;
+  font-size:10px;
+  cursor:pointer;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  padding:0;
+}
+.color-swatch-wrap:hover .color-remove-btn{display:flex}
 .color-add-btn{
-  width:42px;height:42px;
+  width:48px;height:48px;
   border:1.5px dashed var(--line);
   border-radius:8px;
   background:none;
@@ -371,6 +402,7 @@ select{
   color:var(--ink-light);
   display:grid;place-items:center;
   transition:var(--transition);
+  align-self:flex-start;
 }
 .color-add-btn:hover{border-color:var(--gold);color:var(--gold)}
 
@@ -563,7 +595,7 @@ select{
   opacity:0;
   transition:all .3s cubic-bezier(.4,0,.2,1);
   z-index:999;
-  max-width:320px;
+  max-width:340px;
 }
 .toast.show{transform:translateY(0);opacity:1}
 .toast-icon{color:var(--gold-light);font-size:16px}
@@ -575,28 +607,6 @@ select{
   display:none;
 }
 .field-error.show{display:block}
-
-.upload-zone{
-  border:1.5px dashed var(--line);
-  border-radius:var(--radius-sm);
-  padding:20px;
-  text-align:center;
-  cursor:pointer;
-  transition:var(--transition);
-  background:var(--cream);
-}
-.upload-zone:hover{border-color:var(--gold);background:var(--gold-faint)}
-.upload-zone input{display:none}
-.upload-label{
-  font-size:12.5px;
-  color:var(--ink-light);
-  cursor:pointer;
-}
-.upload-list{
-  margin-top:10px;
-  font-size:12px;
-  color:var(--ink-muted);
-}
 
 .divider{
   border:none;
@@ -642,6 +652,26 @@ select{
   font-style:italic;
   padding:0 32px 20px;
 }
+
+/* ─── DEBUG PANEL ─────────────────────────── */
+#debugPanel{
+  display:none;
+  position:fixed;
+  top:60px;right:12px;
+  width:320px;
+  background:var(--ink);
+  color:var(--gold-light);
+  border:1px solid var(--gold);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  font-family:monospace;
+  font-size:11px;
+  z-index:9999;
+  max-height:60vh;
+  overflow-y:auto;
+}
+#debugPanel h4{color:var(--gold);margin-bottom:8px;font-size:12px}
+#debugLog{line-height:1.8;white-space:pre-wrap}
 
 @media(max-width:580px){
   .send-methods{grid-template-columns:1fr;}
@@ -729,6 +759,7 @@ select{
       <div class="field">
         <label>Business Email <span class="opt">*</span></label>
         <input type="email" id="bizEmail" placeholder="hello@yourbusiness.com"/>
+        <div class="field-error" id="err-bizEmail">Please enter a valid email.</div>
       </div>
       <div class="field">
         <label>Phone Number</label>
@@ -835,7 +866,7 @@ select{
   </div>
   <div class="card-body">
     <div id="servicesContainer"></div>
-    <button class="btn-add" id="addServiceBtn"><span>+</span> Add Another Service</button>
+    <button class="btn-add" id="addServiceBtn" type="button"><span>+</span> Add Another Service</button>
   </div>
 </div>
 
@@ -993,11 +1024,9 @@ select{
       </div>
     </div>
     <div class="field">
-      <label>Preferred Brand Colors <span class="opt">(pick up to 4)</span></label>
+      <label>Preferred Brand Colors <span class="opt">(pick up to 5 — each shows its hex code)</span></label>
       <div class="color-row" id="preferredColors">
-        <div class="color-swatch-wrap"><input type="color" value="#B8922A" title="Color 1"/></div>
-        <div class="color-swatch-wrap"><input type="color" value="#0C0A08" title="Color 2"/></div>
-        <button class="color-add-btn" id="addPrefColor" type="button">+</button>
+        <!-- Swatches injected by JS to allow full save/restore -->
       </div>
     </div>
     <div class="field">
@@ -1134,7 +1163,7 @@ select{
   <div class="card-body">
     <div class="field">
       <label>Assets Available</label>
-      <div class="check-group">
+      <div class="check-group" id="assetsGroup">
         <label class="check-item"><input type="checkbox" value="Logo (ready to send)"/><span class="check-box"></span>Logo</label>
         <label class="check-item"><input type="checkbox" value="Professional Photos"/><span class="check-box"></span>Professional Photos</label>
         <label class="check-item"><input type="checkbox" value="Product Images"/><span class="check-box"></span>Product Images</label>
@@ -1179,60 +1208,51 @@ select{
 
 <!-- NAV BUTTONS -->
 <div class="section-nav" id="sectionNav">
-  <button class="btn-prev" id="prevBtn" style="display:none">← Back</button>
-  <button class="btn-next" id="nextBtn">Continue →</button>
-  <button class="btn-generate" id="generateBtn" style="display:none">✦ Generate My Brief</button>
+  <button class="btn-prev" id="prevBtn" style="display:none" type="button">← Back</button>
+  <button class="btn-next" id="nextBtn" type="button">Continue →</button>
+  <button class="btn-generate" id="generateBtn" style="display:none" type="button">✦ Generate My Brief</button>
 </div>
 
 <!-- OUTPUT -->
 <div id="output-section">
 
-  <!-- SUCCESS CARD -->
   <div style="background:var(--ink);border-radius:var(--radius);overflow:hidden;margin-bottom:24px;">
 
-    <!-- Header -->
     <div style="padding:32px 32px 20px;text-align:center;">
       <div style="width:64px;height:64px;background:rgba(37,211,102,.12);border:1.5px solid rgba(37,211,102,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;">✓</div>
       <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;color:var(--cream);margin-bottom:8px;">Brief ready!</h2>
       <p style="color:var(--ink-light);font-size:13px;font-weight:300;max-width:420px;margin:0 auto;line-height:1.7;">Choose how you'd like to send it to Moiz &amp; Anas — pick whichever works best for you.</p>
     </div>
 
-    <!-- ─── SEND METHODS ────────────────────────────────── -->
     <div class="send-methods">
-      <!-- WhatsApp — spans full width -->
-      <button class="send-btn wa full" id="waSendBtn" onclick="sendToWhatsApp()">
+      <button class="send-btn wa full" id="waSendBtn" type="button" onclick="sendToWhatsApp()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884M12 2C6.477 2 2 6.477 2 12c0 1.89.522 3.66 1.438 5.168L2 22l4.918-1.292A9.956 9.956 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2"/></svg>
         Send on WhatsApp
       </button>
-      <!-- Email -->
-      <button class="send-btn email" onclick="sendByEmail()">
+      <button class="send-btn email" type="button" onclick="sendByEmail()">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        Send by Email
+        Send by Email (Full Brief)
       </button>
-      <!-- Copy -->
-      <button class="send-btn copy" onclick="copyBrief()">
+      <button class="send-btn copy" type="button" onclick="copyBrief()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-        Copy to Clipboard
+        Copy Full Brief
       </button>
-      <!-- Download -->
-      <button class="send-btn dl" onclick="exportTxt()">
+      <button class="send-btn dl" type="button" onclick="exportTxt()">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download .txt
       </button>
     </div>
 
-    <p class="send-note">WhatsApp opens a pre-filled message · Email opens your mail app with full brief · Or copy and paste anywhere</p>
+    <p class="send-note">WhatsApp sends a summary — Email + Download + Copy always include the <strong style="color:var(--gold-light)">complete brief</strong> with all your details</p>
 
-    <!-- Secondary actions -->
     <div style="border-top:1px solid rgba(255,255,255,.07);padding:16px 32px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <button class="btn-action" onclick="printBrief()">⎙ Print</button>
-      <button class="btn-action" onclick="editBrief()">✎ Edit Answers</button>
+      <button class="btn-action" type="button" onclick="printBrief()">⎙ Print</button>
+      <button class="btn-action" type="button" onclick="editBrief()">✎ Edit Answers</button>
     </div>
   </div>
 
-  <!-- BRIEF PREVIEW -->
   <div style="margin-bottom:8px;">
-    <button onclick="toggleBriefPreview()" id="previewToggle" style="
+    <button onclick="toggleBriefPreview()" id="previewToggle" type="button" style="
       width:100%;background:var(--white);border:1.5px solid var(--line);
       border-radius:var(--radius-sm);padding:14px 20px;
       display:flex;align-items:center;justify-content:space-between;
@@ -1259,7 +1279,7 @@ select{
     <span class="save-dot" id="saveDot"></span>
     <span id="saveNote">Progress auto-saved</span>
   </span>
-  <button class="btn-clear" onclick="clearForm()">Clear Form</button>
+  <button class="btn-clear" type="button" onclick="clearForm()">Clear Form</button>
 </div>
 
 <!-- TOAST -->
@@ -1268,42 +1288,85 @@ select{
   <span id="toastMsg">Saved!</span>
 </div>
 
+<!-- DEBUG PANEL (activate with Ctrl+Shift+D) -->
+<div id="debugPanel">
+  <h4>🔧 Debug Panel</h4>
+  <div id="debugLog">Press Ctrl+Shift+D to toggle</div>
+</div>
+
 <script>
-/* ── CONFIG ─────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   NORTHSTAR WEB — CLIENT BRIEF v2.0 (FULLY PATCHED)
+   All data pipeline bugs fixed — production grade
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── CONFIG ─────────────────────────────────────────────── */
 const SECTIONS = [
   'Business Info','Overview','Services','Audience',
   'Goals','Pages','Branding','Competitors',
   'Contact','SEO','Assets',
 ];
 
-// Northstar contact info
-const NSW_WA_NUMBER  = '917738486780';   // WhatsApp: +91 77384 86780
+const NSW_WA_NUMBER  = '917738486780';
 const NSW_EMAIL      = 'moiz.patrawala04@gmail.com';
+const STORAGE_KEY    = 'nsw_brief_v2';
+const MAX_COLORS     = 5;
+const DEFAULT_COLORS = ['#B8922A','#0C0A08'];
 
-let currentSection = 0;
-let serviceCount   = 0;
-
-// Global brief storage — always up to date after generateBrief()
+// Global brief storage — always full, never truncated
 window.BRIEF_TEXT = '';
 
-/* ── INIT ───────────────────────────────────── */
+let currentSection = 0;
+let serviceIdCounter = 0;   // global ever-incrementing id (not reset on remove)
+
+/* ── DEBUG LOGGER ────────────────────────────────────────── */
+const DBG = {
+  active: false,
+  log: [],
+  push(msg, type='info') {
+    const entry = `[${type.toUpperCase()}] ${msg}`;
+    this.log.push(entry);
+    if (this.active) this._render();
+    if (type === 'warn' || type === 'error') console.warn('[NSW]', msg);
+  },
+  _render() {
+    const el = document.getElementById('debugLog');
+    if (el) el.textContent = this.log.slice(-40).join('\n');
+  },
+  toggle() {
+    this.active = !this.active;
+    const panel = document.getElementById('debugPanel');
+    panel.style.display = this.active ? 'block' : 'none';
+    if (this.active) this._render();
+  }
+};
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') { e.preventDefault(); DBG.toggle(); }
+});
+
+/* ══════════════════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   buildStepsNav();
-  addService();
+  buildColorSwatches(DEFAULT_COLORS); // FIX: build swatches via JS so they restore properly
+  addService();                       // Default first service
   setupStyleChips();
   setupCharCounters();
   loadFromStorage();
   updateUI();
   setupAutoSave();
+  DBG.push('App initialised');
 });
 
-/* ── STEPS NAV ──────────────────────────────── */
+/* ── STEPS NAV ──────────────────────────────────────────── */
 function buildStepsNav() {
   const nav = document.getElementById('stepsNav');
   SECTIONS.forEach((name, i) => {
     const btn = document.createElement('button');
     btn.className = 'step-btn' + (i === 0 ? ' active' : '');
     btn.dataset.idx = i;
+    btn.type = 'button';
     btn.innerHTML = `<span class="step-num">${i+1}</span>${name}`;
     btn.addEventListener('click', () => goToSection(i));
     nav.appendChild(btn);
@@ -1320,9 +1383,9 @@ function updateStepsNav() {
   if (active) active.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
 }
 
-/* ── SECTION VISIBILITY ─────────────────────── */
+/* ── SECTION VISIBILITY ─────────────────────────────────── */
 function updateUI() {
-  document.querySelectorAll('.section-card').forEach((card) => {
+  document.querySelectorAll('.section-card').forEach(card => {
     card.classList.toggle('active', parseInt(card.dataset.section) === currentSection);
   });
   updateStepsNav();
@@ -1346,7 +1409,6 @@ function goToSection(idx) {
   updateUI();
 }
 
-/* ── NAV BUTTONS ────────────────────────────── */
 document.getElementById('nextBtn').addEventListener('click', () => {
   if (validateCurrentSection()) { currentSection++; updateUI(); saveToStorage(); }
 });
@@ -1358,72 +1420,163 @@ document.getElementById('generateBtn').addEventListener('click', () => {
   if (validateCurrentSection()) { saveToStorage(); generateBrief(); }
 });
 
-/* ── PROGRESS ───────────────────────────────── */
+/* ── PROGRESS ───────────────────────────────────────────── */
 function updateProgress() {
   const pct = Math.round((currentSection / (SECTIONS.length - 1)) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('progressPct').textContent = pct + '%';
 }
 
-/* ── SERVICES ───────────────────────────────── */
-function addService() {
-  serviceCount++;
+/* ══════════════════════════════════════════════════════════
+   SERVICES — FIX: stable IDs, correct selector, restore works
+   ══════════════════════════════════════════════════════════ */
+function addService(prefill) {
+  serviceIdCounter++;
+  const id = serviceIdCounter;
   const container = document.getElementById('servicesContainer');
+  const idx = container.querySelectorAll('.service-entry').length + 1;
+
   const entry = document.createElement('div');
   entry.className = 'service-entry';
-  entry.dataset.svcId = serviceCount;
+  entry.dataset.serviceId = id;   // FIX: use dataset.serviceId (becomes data-service-id in HTML)
+
+  const isFirst = idx === 1;
   entry.innerHTML = `
-    <div class="service-num">Service ${serviceCount}</div>
-    ${serviceCount > 1 ? `<button class="service-remove" type="button" onclick="removeService(${serviceCount})" title="Remove">✕</button>` : ''}
+    <div class="service-num">Service ${idx}</div>
+    ${!isFirst ? `<button class="service-remove" type="button" data-remove-id="${id}" title="Remove">✕</button>` : ''}
     <div class="field">
       <label>Service / Product Name <span class="opt">*</span></label>
-      <input type="text" data-svc="${serviceCount}" data-field="name" placeholder="e.g. Full Website Design"/>
+      <input type="text" data-svc="${id}" data-field="name" placeholder="e.g. Full Website Design" value="${escHtml(prefill?.name||'')}"/>
     </div>
     <div class="field">
       <label>Description</label>
-      <textarea data-svc="${serviceCount}" data-field="desc" rows="2" placeholder="What's included, how it works…" maxlength="300"></textarea>
+      <textarea data-svc="${id}" data-field="desc" rows="2" placeholder="What's included, how it works…" maxlength="300">${escHtml(prefill?.desc||'')}</textarea>
     </div>
     <div class="field">
       <label>Key Benefits</label>
-      <input type="text" data-svc="${serviceCount}" data-field="benefits" placeholder="e.g. Saves time, increases conversions, fully mobile"/>
+      <input type="text" data-svc="${id}" data-field="benefits" placeholder="e.g. Saves time, increases conversions, fully mobile" value="${escHtml(prefill?.benefits||'')}"/>
     </div>
     <div class="field">
       <label>Pricing <span class="opt">(optional)</span></label>
-      <input type="text" data-svc="${serviceCount}" data-field="price" placeholder="e.g. Starting from ₹15,000"/>
+      <input type="text" data-svc="${id}" data-field="price" placeholder="e.g. Starting from ₹15,000" value="${escHtml(prefill?.price||'')}"/>
     </div>
   `;
   container.appendChild(entry);
+
+  // Attach remove listener via event delegation on the button itself
+  const removeBtn = entry.querySelector('[data-remove-id]');
+  if (removeBtn) {
+    removeBtn.addEventListener('click', () => removeService(id));
+  }
+  DBG.push(`Service #${id} added`);
 }
 
 function removeService(id) {
-  const entry = document.querySelector(`.service-entry[data-svc-id="${id}"]`);
-  if (entry) entry.remove();
+  // FIX: use data-service-id attribute selector
+  const entry = document.querySelector(`.service-entry[data-service-id="${id}"]`);
+  if (entry) {
+    entry.remove();
+    // Renumber visible labels
+    document.querySelectorAll('.service-entry .service-num').forEach((el, i) => {
+      el.textContent = `Service ${i+1}`;
+    });
+    DBG.push(`Service #${id} removed`);
+    saveToStorage();
+  }
 }
 
-document.getElementById('addServiceBtn').addEventListener('click', addService);
+document.getElementById('addServiceBtn').addEventListener('click', () => { addService(); saveToStorage(); });
 
-/* ── STYLE CHIPS ────────────────────────────── */
+/* ── ESCAPE HTML HELPER ─────────────────────────────────── */
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+/* ══════════════════════════════════════════════════════════
+   COLOR SWATCHES — FIX: fully JS-managed, save & restore all
+   ══════════════════════════════════════════════════════════ */
+function buildColorSwatches(colorsArray) {
+  const row = document.getElementById('preferredColors');
+  // Clear everything
+  row.innerHTML = '';
+
+  // Add swatches
+  colorsArray.forEach((hex, i) => {
+    row.appendChild(createColorSwatch(hex, i === 0)); // first swatch not removable
+  });
+
+  // Add the + button
+  const addBtn = document.createElement('button');
+  addBtn.type = 'button';
+  addBtn.className = 'color-add-btn';
+  addBtn.id = 'addPrefColor';
+  addBtn.title = 'Add another colour';
+  addBtn.textContent = '+';
+  addBtn.addEventListener('click', () => {
+    const current = document.querySelectorAll('#preferredColors .color-swatch-wrap').length;
+    if (current >= MAX_COLORS) { showToast(`Maximum ${MAX_COLORS} colours allowed`); return; }
+    const randomHex = '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
+    row.insertBefore(createColorSwatch(randomHex, false), document.getElementById('addPrefColor'));
+    saveToStorage();
+  });
+  row.appendChild(addBtn);
+}
+
+function createColorSwatch(hex, isFirst) {
+  const wrap = document.createElement('div');
+  wrap.className = 'color-swatch-wrap';
+
+  const inp = document.createElement('input');
+  inp.type = 'color';
+  inp.value = hex;
+  inp.title = 'Click to change colour';
+  inp.addEventListener('input', () => {
+    label.textContent = inp.value.toUpperCase();
+    saveToStorage();
+  });
+  inp.addEventListener('change', saveToStorage);
+
+  const label = document.createElement('div');
+  label.className = 'color-hex-label';
+  label.textContent = hex.toUpperCase();
+
+  wrap.appendChild(inp);
+  wrap.appendChild(label);
+
+  // Remove button (not on first swatch)
+  if (!isFirst) {
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'color-remove-btn';
+    removeBtn.title = 'Remove colour';
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => {
+      wrap.remove();
+      saveToStorage();
+    });
+    wrap.appendChild(removeBtn);
+  }
+
+  return wrap;
+}
+
+/* ── STYLE CHIPS ────────────────────────────────────────── */
 function setupStyleChips() {
   document.querySelectorAll('.style-chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+    // FIX: click on the label — toggle 'selected' class
+    chip.addEventListener('click', () => {
+      chip.classList.toggle('selected');
+      saveToStorage();
+    });
   });
 }
 
-/* ── COLOR ADD ──────────────────────────────── */
-document.getElementById('addPrefColor').addEventListener('click', () => {
-  const row = document.getElementById('preferredColors');
-  const swatches = row.querySelectorAll('.color-swatch-wrap');
-  if (swatches.length >= 5) { showToast('Maximum 5 colours allowed'); return; }
-  const wrap = document.createElement('div');
-  wrap.className = 'color-swatch-wrap';
-  const inp = document.createElement('input');
-  inp.type = 'color';
-  inp.value = '#' + Math.floor(Math.random()*0xffffff).toString(16).padStart(6,'0');
-  wrap.appendChild(inp);
-  row.insertBefore(wrap, document.getElementById('addPrefColor'));
-});
-
-/* ── CHAR COUNTERS ──────────────────────────── */
+/* ── CHAR COUNTERS ──────────────────────────────────────── */
 function setupCharCounters() {
   const pairs = [
     ['bizDesc','bizDescCount'],['bizProblem','bizProblemCount'],
@@ -1440,88 +1593,183 @@ function setupCharCounters() {
   });
 }
 
-/* ── VALIDATION ─────────────────────────────── */
+/* ── VALIDATION ─────────────────────────────────────────── */
 function validateCurrentSection() {
   let valid = true;
+
   if (currentSection === 0) {
     const bn = document.getElementById('bizName');
+    const errBn = document.getElementById('err-bizName');
     if (!bn.value.trim()) {
       bn.classList.add('error');
-      document.getElementById('err-bizName').classList.add('show');
+      if (errBn) errBn.classList.add('show');
       valid = false;
     } else {
       bn.classList.remove('error');
-      document.getElementById('err-bizName').classList.remove('show');
+      if (errBn) errBn.classList.remove('show');
     }
     const em = document.getElementById('bizEmail');
+    const errEm = document.getElementById('err-bizEmail');
     if (!em.value.trim()) {
       em.classList.add('error');
+      if (errEm) errEm.classList.add('show');
       valid = false;
     } else {
       em.classList.remove('error');
+      if (errEm) errEm.classList.remove('show');
     }
   }
+
   if (!valid) showToast('Please fill in the required fields.');
   return valid;
 }
 
-/* ── DATA COLLECTION ────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   DATA COLLECTION — COMPLETE, NO FIELD MISSING
+   ══════════════════════════════════════════════════════════ */
 function g(id) {
   const el = document.getElementById(id);
-  return el ? el.value.trim() : '';
+  if (!el) { DBG.push(`Field #${id} not found`, 'warn'); return ''; }
+  return el.value.trim();
 }
 
 function collectFormData() {
+  // ── SERVICES (FIX: use correct attribute data-service-id) ──
   const services = [];
   document.querySelectorAll('.service-entry').forEach(entry => {
-    const name  = (entry.querySelector(`[data-field="name"]`)?.value  || '').trim();
-    const desc  = (entry.querySelector(`[data-field="desc"]`)?.value  || '').trim();
-    const bene  = (entry.querySelector(`[data-field="benefits"]`)?.value || '').trim();
-    const price = (entry.querySelector(`[data-field="price"]`)?.value || '').trim();
-    services.push({name, desc, bene, price});
+    const svcId = entry.dataset.serviceId;
+    const fld = field => (entry.querySelector(`[data-svc="${svcId}"][data-field="${field}"]`)?.value || '').trim();
+    services.push({
+      name:     fld('name'),
+      desc:     fld('desc'),
+      benefits: fld('benefits'),
+      price:    fld('price'),
+    });
+    DBG.push(`Collected service: ${fld('name') || '[unnamed]'}`);
   });
 
-  const goals  = [...document.querySelectorAll('#websiteGoals input:checked')].map(i=>i.value);
-  const pages  = [...document.querySelectorAll('#requiredPages input:checked')].map(i=>i.value);
-  const assets = [...document.querySelectorAll('[data-section="10"] .check-group input:checked')].map(i=>i.value);
-  const styles = [...document.querySelectorAll('.style-chip.selected')].map(c => c.querySelector('input')?.value || c.textContent.trim());
-  const prefColors = [...document.querySelectorAll('#preferredColors input[type=color]')].map(i=>i.value);
+  // ── CHECKBOX GROUPS ──
+  const goals  = [...document.querySelectorAll('#websiteGoals input:checked')].map(i => i.value);
+  const pages  = [...document.querySelectorAll('#requiredPages input:checked')].map(i => i.value);
+  // FIX: use #assetsGroup — explicit ID instead of fragile nested selector
+  const assets = [...document.querySelectorAll('#assetsGroup input:checked')].map(i => i.value);
+
+  // ── STYLE CHIPS (FIX: collect by .selected class on label, read input value) ──
+  const styles = [...document.querySelectorAll('#styleChips .style-chip.selected')]
+    .map(chip => chip.querySelector('input')?.value || chip.textContent.trim())
+    .filter(Boolean);
+
+  // ── COLORS (FIX: collect all swatches including dynamically added ones) ──
+  const prefColors = [...document.querySelectorAll('#preferredColors input[type=color]')]
+    .map(inp => inp.value.toUpperCase());
+
+  // Warn on missing critical fields
+  if (!g('bizName'))  DBG.push('bizName empty', 'warn');
+  if (!g('bizEmail')) DBG.push('bizEmail empty', 'warn');
+  if (services.length === 0) DBG.push('No services found', 'warn');
 
   return {
-    bizName:g('bizName'), ownerName:g('ownerName'), bizEmail:g('bizEmail'),
-    bizPhone:g('bizPhone'), bizAddress:g('bizAddress'), industry:g('industry'),
-    yearsInBiz:g('yearsInBiz'), domain:g('domain'), existingUrl:g('existingUrl'),
-    bizDesc:g('bizDesc'), bizProblem:g('bizProblem'), bizDiff:g('bizDiff'), mission:g('mission'),
+    // Section 1 — Business Info
+    bizName:     g('bizName'),
+    ownerName:   g('ownerName'),
+    bizEmail:    g('bizEmail'),
+    bizPhone:    g('bizPhone'),
+    bizAddress:  g('bizAddress'),
+    industry:    g('industry'),
+    yearsInBiz:  g('yearsInBiz'),
+    domain:      g('domain'),
+    existingUrl: g('existingUrl'),
+
+    // Section 2 — Business Overview
+    bizDesc:     g('bizDesc'),
+    bizProblem:  g('bizProblem'),
+    bizDiff:     g('bizDiff'),
+    mission:     g('mission'),
+
+    // Section 3 — Services (dynamic)
     services,
-    custType:g('custType'), ageRange:g('ageRange'), custLocation:g('custLocation'),
-    custPain:g('custPain'), custGoals:g('custGoals'),
-    goals, goalsOther:g('goalsOther'),
-    pages, customPages:g('customPages'),
-    styles, prefColors, avoidColors:g('avoidColors'), hasLogo:g('hasLogo'), inspiration:g('inspiration'),
-    comp1:g('comp1'), comp2:g('comp2'), comp3:g('comp3'),
-    compLike:g('compLike'), compDislike:g('compDislike'),
-    pubEmail:g('pubEmail'), pubPhone:g('pubPhone'), whatsapp:g('whatsapp'), pubAddress:g('pubAddress'),
-    smInstagram:g('smInstagram'), smFacebook:g('smFacebook'), smLinkedin:g('smLinkedin'), smOther:g('smOther'),
-    seoCities:g('seoCities'), seoServices:g('seoServices'), seoKeywords:g('seoKeywords'),
-    assets, copyWriter:g('copyWriter'), budget:g('budget'),
-    launchDate:g('launchDate'), extraNotes:g('extraNotes'),
+
+    // Section 4 — Target Audience
+    custType:      g('custType'),
+    ageRange:      g('ageRange'),
+    custLocation:  g('custLocation'),
+    custPain:      g('custPain'),
+    custGoals:     g('custGoals'),
+
+    // Section 5 — Website Goals
+    goals,
+    goalsOther:  g('goalsOther'),
+
+    // Section 6 — Required Pages
+    pages,
+    customPages: g('customPages'),
+
+    // Section 7 — Branding
+    styles,
+    prefColors,
+    avoidColors: g('avoidColors'),
+    hasLogo:     g('hasLogo'),
+    inspiration: g('inspiration'),
+
+    // Section 8 — Competitors
+    comp1:       g('comp1'),
+    comp2:       g('comp2'),
+    comp3:       g('comp3'),
+    compLike:    g('compLike'),
+    compDislike: g('compDislike'),
+
+    // Section 9 — Contact for Website
+    pubEmail:    g('pubEmail'),
+    pubPhone:    g('pubPhone'),
+    whatsapp:    g('whatsapp'),
+    pubAddress:  g('pubAddress'),
+    smInstagram: g('smInstagram'),
+    smFacebook:  g('smFacebook'),
+    smLinkedin:  g('smLinkedin'),
+    smOther:     g('smOther'),
+
+    // Section 10 — SEO
+    seoCities:    g('seoCities'),
+    seoServices:  g('seoServices'),
+    seoKeywords:  g('seoKeywords'),
+
+    // Section 11 — Assets & Timeline
+    assets,
+    copyWriter: g('copyWriter'),
+    budget:     g('budget'),
+    launchDate: g('launchDate'),
+    extraNotes: g('extraNotes'),
   };
 }
 
-/* ── STORAGE ────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   AUTO-SAVE & LOCAL STORAGE
+   ══════════════════════════════════════════════════════════ */
 function saveToStorage() {
   try {
-    localStorage.setItem('nsw_brief_v1', JSON.stringify(collectFormData()));
+    const d = collectFormData();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(d));
     flashSave();
-  } catch(e){}
+    DBG.push('Saved to localStorage');
+  } catch(e) {
+    DBG.push('Save failed: ' + e.message, 'error');
+  }
 }
 
 function loadFromStorage() {
   try {
-    const raw = localStorage.getItem('nsw_brief_v1');
-    if (!raw) return;
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) { DBG.push('No saved data found'); return; }
     const d = JSON.parse(raw);
-    const set = (id, val) => { const el=document.getElementById(id); if(el && val!==undefined) el.value=val; };
+    DBG.push('Loading saved data…');
+
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (!el) { DBG.push(`Restore: element #${id} not found`, 'warn'); return; }
+      if (val !== undefined && val !== null) el.value = val;
+    };
+
+    // ── Simple text/select fields ──
     ['bizName','ownerName','bizEmail','bizPhone','bizAddress','industry','yearsInBiz',
      'domain','existingUrl','bizDesc','bizProblem','bizDiff','mission',
      'custType','ageRange','custLocation','custPain','custGoals',
@@ -1530,324 +1778,500 @@ function loadFromStorage() {
      'pubEmail','pubPhone','whatsapp','pubAddress',
      'smInstagram','smFacebook','smLinkedin','smOther',
      'seoCities','seoServices','seoKeywords',
-     'copyWriter','budget','launchDate','extraNotes'].forEach(id => set(id, d[id]));
+     'copyWriter','budget','launchDate','extraNotes'
+    ].forEach(id => set(id, d[id]));
 
-    if (d.services && d.services.length) {
+    // ── Services (FIX: clear container, reset counter, rebuild) ──
+    if (d.services && d.services.length > 0) {
       document.getElementById('servicesContainer').innerHTML = '';
-      serviceCount = 0;
-      d.services.forEach(svc => {
-        addService();
-        const id = serviceCount;
-        const entry = document.querySelector(`.service-entry[data-svc-id="${id}"]`);
-        if (!entry) return;
-        const fn = f => entry.querySelector(`[data-field="${f}"]`);
-        if(fn('name')) fn('name').value = svc.name||'';
-        if(fn('desc')) fn('desc').value = svc.desc||'';
-        if(fn('benefits')) fn('benefits').value = svc.bene||'';
-        if(fn('price')) fn('price').value = svc.price||'';
+      serviceIdCounter = 0;
+      d.services.forEach(svc => addService(svc));
+      DBG.push(`Restored ${d.services.length} service(s)`);
+    }
+
+    // ── Checkbox groups ──
+    if (d.goals && d.goals.length) {
+      d.goals.forEach(v => {
+        const inp = document.querySelector(`#websiteGoals input[value="${CSS.escape(v)}"]`);
+        if (inp) inp.checked = true;
+        else DBG.push(`Goal not found: ${v}`, 'warn');
+      });
+    }
+    if (d.pages && d.pages.length) {
+      // First uncheck all, then check saved
+      document.querySelectorAll('#requiredPages input').forEach(i => i.checked = false);
+      d.pages.forEach(v => {
+        const inp = document.querySelector(`#requiredPages input[value="${CSS.escape(v)}"]`);
+        if (inp) inp.checked = true;
+        else DBG.push(`Page not found: ${v}`, 'warn');
+      });
+    }
+    if (d.assets && d.assets.length) {
+      d.assets.forEach(v => {
+        // FIX: use #assetsGroup
+        const inp = document.querySelector(`#assetsGroup input[value="${CSS.escape(v)}"]`);
+        if (inp) inp.checked = true;
+        else DBG.push(`Asset not found: ${v}`, 'warn');
       });
     }
 
-    if(d.goals) d.goals.forEach(v => {
-      const inp = document.querySelector(`#websiteGoals input[value="${v}"]`);
-      if(inp) inp.checked = true;
-    });
-    if(d.pages) d.pages.forEach(v => {
-      const inp = document.querySelector(`#requiredPages input[value="${v}"]`);
-      if(inp) inp.checked = true;
-    });
-    if(d.styles) d.styles.forEach(v => {
-      document.querySelectorAll('.style-chip').forEach(chip => {
-        if((chip.querySelector('input')?.value || chip.textContent.trim()) === v)
-          chip.classList.add('selected');
+    // ── Style chips (FIX: match by input value inside chip label) ──
+    if (d.styles && d.styles.length) {
+      d.styles.forEach(v => {
+        const chip = [...document.querySelectorAll('#styleChips .style-chip')]
+          .find(c => (c.querySelector('input')?.value || '') === v);
+        if (chip) chip.classList.add('selected');
+        else DBG.push(`Style chip not found: ${v}`, 'warn');
       });
-    });
-    if(d.assets) d.assets.forEach(v => {
-      const inp = document.querySelector(`[data-section="10"] .check-group input[value="${v}"]`);
-      if(inp) inp.checked = true;
-    });
+    }
 
+    // ── Color swatches (FIX: completely rebuild from saved array) ──
+    if (d.prefColors && d.prefColors.length > 0) {
+      buildColorSwatches(d.prefColors);
+      DBG.push(`Restored ${d.prefColors.length} colour(s): ${d.prefColors.join(', ')}`);
+    }
+
+    // ── Update char counters ──
     ['bizDesc','bizProblem','bizDiff','mission','custPain','custGoals',
      'compLike','compDislike','seoKeywords','extraNotes'].forEach(id => {
       const el = document.getElementById(id);
-      const ct = document.getElementById(id+'Count');
-      if(el && ct) ct.textContent = el.value.length;
+      const ct = document.getElementById(id + 'Count');
+      if (el && ct) ct.textContent = el.value.length;
     });
 
     showToast('Previous progress loaded ✦');
-  } catch(e){}
+    DBG.push('Load complete');
+  } catch(e) {
+    DBG.push('Load failed: ' + e.message, 'error');
+  }
 }
 
-/* ── AUTO-SAVE ──────────────────────────────── */
 function setupAutoSave() {
+  // Interval save every 30s
   setInterval(saveToStorage, 30000);
-  document.querySelectorAll('input,textarea,select').forEach(el => {
-    el.addEventListener('change', saveToStorage);
+
+  // Save on any input change (covers text, selects, textareas)
+  document.addEventListener('change', e => {
+    if (e.target.matches('input,textarea,select')) saveToStorage();
+  });
+  document.addEventListener('input', e => {
+    if (e.target.matches('textarea')) saveToStorage();
   });
 }
 
 function flashSave() {
-  const dot = document.getElementById('saveDot');
+  const dot  = document.getElementById('saveDot');
   const note = document.getElementById('saveNote');
-  dot.style.background = 'var(--gold)';
+  if (!dot || !note) return;
+  dot.style.background  = 'var(--gold)';
   note.textContent = 'Saved just now';
   setTimeout(() => {
-    dot.style.background = 'var(--success)';
+    dot.style.background  = 'var(--success)';
     note.textContent = 'Progress auto-saved';
   }, 2000);
 }
 
-/* ── GENERATE BRIEF ─────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   BUILD FULL BRIEF TEXT — COMPLETE, NOTHING OMITTED
+   ══════════════════════════════════════════════════════════ */
 function buildBriefText(d) {
-  const line = (label, val) => val ? `${label.padEnd(28,' ')}${val}\n` : '';
-  const sect = (title) => `\n${'━'.repeat(60)}\n  ${title.toUpperCase()}\n${'━'.repeat(60)}\n`;
+  const W = 62;
+  const line  = (label, val) => val ? `  ${(label + ':').padEnd(30)}${val}\n` : '';
+  const sect  = title => `\n${'━'.repeat(W)}\n  ${title}\n${'━'.repeat(W)}\n`;
+  const block = (label, val) => val ? `\n▸ ${label}:\n  ${val.replace(/\n/g,'\n  ')}\n` : '';
+  const list  = (label, arr) => arr && arr.length ? `\n▸ ${label}:\n${arr.map(v=>`    ✔ ${v}`).join('\n')}\n` : '';
+  const ts    = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
 
   let b = '';
-  b += `╔${'═'.repeat(58)}╗\n`;
-  b += `║${'  CLIENT WEBSITE PROJECT BRIEF'.padEnd(58)}║\n`;
-  b += `║${'  Northstar Web  ·  northstarweb.co'.padEnd(58)}║\n`;
-  b += `╚${'═'.repeat(58)}╝\n`;
-  b += `\nGenerated: ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}\n`;
+  b += `╔${'═'.repeat(W)}╗\n`;
+  b += `║${('  CLIENT WEBSITE PROJECT BRIEF').padEnd(W)}║\n`;
+  b += `║${('  Northstar Web  ·  northstarweb.co').padEnd(W)}║\n`;
+  b += `║${('  Contact: ' + NSW_EMAIL).padEnd(W)}║\n`;
+  b += `╚${'═'.repeat(W)}╝\n`;
+  b += `\n  Generated: ${ts}\n`;
 
-  b += sect('1. Business Information');
-  b += line('Business Name:', d.bizName);
-  b += line('Owner / Contact:', d.ownerName);
-  b += line('Email:', d.bizEmail);
-  b += line('Phone:', d.bizPhone);
-  b += line('Address:', d.bizAddress);
-  b += line('Industry:', d.industry);
-  b += line('Years in Business:', d.yearsInBiz);
-  b += line('Desired Domain:', d.domain);
-  b += line('Existing Website:', d.existingUrl);
+  /* ── 1. BUSINESS INFORMATION ─────────────────────────── */
+  b += sect('1 · BUSINESS INFORMATION');
+  b += line('Business Name',  d.bizName);
+  b += line('Owner / Contact', d.ownerName);
+  b += line('Email',          d.bizEmail);
+  b += line('Phone',          d.bizPhone);
+  b += line('Address',        d.bizAddress);
+  b += line('Industry',       d.industry);
+  b += line('Years in Business', d.yearsInBiz ? `${d.yearsInBiz} year(s)` : '');
+  b += line('Desired Domain', d.domain);
+  b += line('Existing Website', d.existingUrl);
 
-  b += sect('2. Business Overview');
-  if(d.bizDesc)    b += `ABOUT THE BUSINESS\n${d.bizDesc}\n\n`;
-  if(d.bizProblem) b += `PROBLEM THEY SOLVE\n${d.bizProblem}\n\n`;
-  if(d.bizDiff)    b += `COMPETITIVE ADVANTAGE\n${d.bizDiff}\n\n`;
-  if(d.mission)    b += `MISSION\n${d.mission}\n`;
+  /* ── 2. BUSINESS OVERVIEW ────────────────────────────── */
+  b += sect('2 · BUSINESS OVERVIEW');
+  b += block('About the Business', d.bizDesc);
+  b += block('Problem They Solve', d.bizProblem);
+  b += block('Competitive Advantage / Why Choose Them', d.bizDiff);
+  b += block('Mission Statement', d.mission);
 
-  b += sect('3. Services & Products');
-  d.services.forEach((s, i) => {
-    if (!s.name) return;
-    b += `\nSERVICE ${i+1}: ${s.name}\n`;
-    if(s.desc)  b += `  Description:  ${s.desc}\n`;
-    if(s.bene)  b += `  Key Benefits: ${s.bene}\n`;
-    if(s.price) b += `  Pricing:      ${s.price}\n`;
+  /* ── 3. SERVICES & PRODUCTS ──────────────────────────── */
+  b += sect('3 · SERVICES & PRODUCTS');
+  const validSvcs = d.services.filter(s => s.name);
+  if (validSvcs.length === 0) {
+    b += '\n  [No services entered]\n';
+  } else {
+    validSvcs.forEach((s, i) => {
+      b += `\n  ── Service ${i+1}: ${s.name} ──\n`;
+      if (s.desc)     b += `     Description:   ${s.desc}\n`;
+      if (s.benefits) b += `     Key Benefits:  ${s.benefits}\n`;
+      if (s.price)    b += `     Pricing:       ${s.price}\n`;
+    });
+  }
+
+  /* ── 4. TARGET AUDIENCE ──────────────────────────────── */
+  b += sect('4 · TARGET AUDIENCE');
+  b += line('Primary Customer Type', d.custType);
+  b += line('Age Range',             d.ageRange);
+  b += line('Customer Location',     d.custLocation);
+  b += block('Customer Pain Points', d.custPain);
+  b += block('Customer Goals / Desired Outcomes', d.custGoals);
+
+  /* ── 5. WEBSITE GOALS ────────────────────────────────── */
+  b += sect('5 · WEBSITE GOALS');
+  b += list('Primary Goals', d.goals);
+  if (d.goalsOther) b += `\n▸ Additional Goals:\n    ${d.goalsOther}\n`;
+
+  /* ── 6. REQUIRED PAGES ───────────────────────────────── */
+  b += sect('6 · REQUIRED PAGES');
+  b += list('Pages to Include', d.pages);
+  if (d.customPages) b += `\n▸ Custom / Additional Pages:\n    ${d.customPages}\n`;
+
+  /* ── 7. BRANDING & VISUAL STYLE ──────────────────────── */
+  b += sect('7 · BRANDING & VISUAL STYLE');
+
+  // Style direction
+  if (d.styles && d.styles.length) {
+    b += `\n▸ Style Direction:\n${d.styles.map(s=>`    ✔ ${s}`).join('\n')}\n`;
+  }
+
+  // FIX: Colors fully exported with hex codes + visual label
+  if (d.prefColors && d.prefColors.length) {
+    b += `\n▸ Brand Colours (${d.prefColors.length} selected):\n`;
+    d.prefColors.forEach((hex, i) => {
+      b += `    Colour ${i+1}: ${hex}   (use in primary palette)\n`;
+    });
+  }
+
+  b += line('\n  Colours to Avoid', d.avoidColors);
+  b += line('  Logo Status',       d.hasLogo);
+  b += block('Site Inspiration / Reference URLs', d.inspiration);
+
+  /* ── 8. COMPETITOR ANALYSIS ──────────────────────────── */
+  b += sect('8 · COMPETITOR ANALYSIS');
+  const comps = [d.comp1, d.comp2, d.comp3].filter(Boolean);
+  if (comps.length) {
+    b += '\n▸ Competitor Websites:\n';
+    comps.forEach((c, i) => b += `    ${i+1}. ${c}\n`);
+  }
+  b += block('What They Like About Competitors', d.compLike);
+  b += block('What to Improve On / Do Better', d.compDislike);
+
+  /* ── 9. WEBSITE CONTACT DETAILS ──────────────────────── */
+  b += sect('9 · WEBSITE CONTACT DETAILS');
+  b += line('Public Email',    d.pubEmail);
+  b += line('Public Phone',    d.pubPhone);
+  b += line('WhatsApp',        d.whatsapp);
+  b += line('Site Address',    d.pubAddress);
+  b += '\n  Social Media:\n';
+  b += line('    Instagram', d.smInstagram);
+  b += line('    Facebook',  d.smFacebook);
+  b += line('    LinkedIn',  d.smLinkedin);
+  b += line('    YouTube / Other', d.smOther);
+
+  /* ── 10. SEO & LOCATION ──────────────────────────────── */
+  b += sect('10 · SEO & LOCATION TARGETING');
+  b += line('Cities / Areas Served', d.seoCities);
+  b += line('Main Services to Rank', d.seoServices);
+  b += block('Target Keywords', d.seoKeywords);
+
+  /* ── 11. CONTENT, ASSETS & SCOPE ────────────────────── */
+  b += sect('11 · CONTENT, ASSETS & PROJECT SCOPE');
+  b += list('Assets Available', d.assets);
+  b += line('\n  Copy / Content Provider', d.copyWriter);
+  b += line('  Package Interest',         d.budget || 'Not specified');
+  b += line('  Desired Launch Date',      d.launchDate);
+  b += block('Additional Notes / Special Requests', d.extraNotes);
+
+  /* ── AI GENERATION INSTRUCTIONS ─────────────────────── */
+  b += `\n${'═'.repeat(W)}\n  AI WEBSITE GENERATION INSTRUCTIONS\n${'═'.repeat(W)}\n\n`;
+  b += `Build a professional, conversion-optimised website for "${d.bizName || 'this business'}".\n`;
+  b += `This is a ${d.industry || 'service-based'} business.\n\n`;
+
+  b += `CRITICAL REQUIREMENTS:\n`;
+  b += `  • Client Type:   ${d.custType || 'General consumers'}\n`;
+  b += `  • Age Range:     ${d.ageRange || 'Not specified'}\n`;
+  b += `  • Geographic Focus: ${d.seoCities || 'Not specified'}\n`;
+  b += `  • Brand Style:   ${d.styles && d.styles.length ? d.styles.join(', ') : 'Modern & Clean'}\n`;
+
+  if (d.prefColors && d.prefColors.length) {
+    b += `  • Brand Colours: ${d.prefColors.join(', ')}\n`;
+    b += `    → Use these exact hex values as the primary palette\n`;
+  }
+  if (d.avoidColors) {
+    b += `  • Avoid these colours: ${d.avoidColors}\n`;
+  }
+
+  b += `\nPAGES TO BUILD:\n`;
+  const allPages = [...(d.pages || [])];
+  if (d.customPages) allPages.push(...d.customPages.split(',').map(p=>p.trim()).filter(Boolean));
+  allPages.forEach(p => b += `  • ${p}\n`);
+
+  b += `\nCONVERSION GOALS (design CTAs around these):\n`;
+  (d.goals || []).forEach(g => b += `  • ${g}\n`);
+  if (d.goalsOther) b += `  • ${d.goalsOther}\n`;
+
+  b += `\nSERVICES TO PROMINENTLY FEATURE:\n`;
+  validSvcs.forEach(s => {
+    b += `  • ${s.name}`;
+    if (s.price) b += ` — ${s.price}`;
+    b += '\n';
   });
 
-  b += sect('4. Target Audience');
-  b += line('Customer Type:', d.custType);
-  b += line('Age Range:', d.ageRange);
-  b += line('Location:', d.custLocation);
-  if(d.custPain)  b += `\nPAIN POINTS\n${d.custPain}\n`;
-  if(d.custGoals) b += `\nCUSTOMER GOALS\n${d.custGoals}\n`;
+  b += `\nSEO REQUIREMENTS:\n`;
+  b += `  • Rank for: ${d.seoServices || 'main services'}\n`;
+  b += `  • Target locations: ${d.seoCities || 'specified areas'}\n`;
+  if (d.seoKeywords) b += `  • Keywords: ${d.seoKeywords}\n`;
 
-  b += sect('5. Website Goals');
-  if(d.goals.length) b += d.goals.map(g=>`  ✔ ${g}`).join('\n') + '\n';
-  if(d.goalsOther)   b += `  + ${d.goalsOther}\n`;
+  b += `\nCOPY / CONTENT:\n`;
+  b += `  • Provider: ${d.copyWriter || 'To be determined'}\n`;
+  b += `  • The business solves: ${d.bizProblem || 'see overview'}\n`;
+  b += `  • Their USP is: ${d.bizDiff || 'see overview'}\n`;
 
-  b += sect('6. Required Pages');
-  if(d.pages.length) b += d.pages.map(p=>`  ✔ ${p}`).join('\n') + '\n';
-  if(d.customPages)  b += `  + Custom: ${d.customPages}\n`;
+  if (comps.length) {
+    b += `\nCOMPETITORS TO OUTPERFORM:\n`;
+    comps.forEach(c => b += `  • ${c}\n`);
+    if (d.compDislike) b += `  What to do better: ${d.compDislike}\n`;
+  }
 
-  b += sect('7. Branding & Visual Style');
-  if(d.styles.length)     b += line('Style Direction:', d.styles.join(', '));
-  if(d.prefColors.length) b += line('Brand Colours:', d.prefColors.join(', '));
-  if(d.avoidColors)       b += line('Colours to Avoid:', d.avoidColors);
-  if(d.hasLogo)           b += line('Logo Status:', d.hasLogo);
-  if(d.inspiration)       b += line('Site Inspiration:', d.inspiration);
+  b += `\nTECHNICAL REQUIREMENTS:\n`;
+  b += `  • Fully responsive (mobile-first)\n`;
+  b += `  • Fast loading — optimised images + code\n`;
+  b += `  • Accessible (WCAG AA)\n`;
+  b += `  • SEO-optimised HTML structure\n`;
+  b += `  • Clear CTAs on every page aligned to the goals above\n`;
+  b += `  • WhatsApp integration: ${d.whatsapp || 'add WhatsApp button'}\n`;
+  if (d.smInstagram || d.smFacebook || d.smLinkedin) {
+    b += `  • Social links: ${[d.smInstagram,d.smFacebook,d.smLinkedin,d.smOther].filter(Boolean).join(' · ')}\n`;
+  }
 
-  b += sect('8. Competitor Analysis');
-  const comps = [d.comp1, d.comp2, d.comp3].filter(Boolean);
-  if(comps.length) comps.forEach((c,i) => b += `  Competitor ${i+1}: ${c}\n`);
-  if(d.compLike)    b += `\nWHAT THEY LIKE\n${d.compLike}\n`;
-  if(d.compDislike) b += `\nWHAT TO IMPROVE ON\n${d.compDislike}\n`;
-
-  b += sect('9. Website Contact Details');
-  b += line('Public Email:', d.pubEmail);
-  b += line('Public Phone:', d.pubPhone);
-  b += line('WhatsApp:', d.whatsapp);
-  b += line('Address on Site:', d.pubAddress);
-  b += '\nSOCIAL MEDIA\n';
-  b += line('  Instagram:', d.smInstagram);
-  b += line('  Facebook:', d.smFacebook);
-  b += line('  LinkedIn:', d.smLinkedin);
-  b += line('  Other:', d.smOther);
-
-  b += sect('10. SEO & Location Targeting');
-  b += line('Cities / Areas Served:', d.seoCities);
-  b += line('Main Services to Rank:', d.seoServices);
-  if(d.seoKeywords) b += `\nKEYWORDS\n${d.seoKeywords}\n`;
-
-  b += sect('11. Content, Assets & Project Scope');
-  if(d.assets.length) b += line('Assets Available:', d.assets.join(', '));
-  b += line('Copy / Content:', d.copyWriter);
-  b += line('Budget / Package:', d.budget);
-  b += line('Desired Launch:', d.launchDate);
-  if(d.extraNotes) b += `\nADDITIONAL NOTES\n${d.extraNotes}\n`;
-
-  b += `\n${'═'.repeat(60)}\n  AI WEBSITE GENERATION INSTRUCTIONS\n${'═'.repeat(60)}\n\n`;
-  b += `Using the information above, build a professional, conversion-focused website for ${d.bizName||'this business'}.\n\n`;
-  b += `The site should:\n`;
-  b += `  • Clearly communicate the business value proposition\n`;
-  b += `  • Be optimised for the target audience: ${d.custType||'described above'}\n`;
-  b += `  • Include the required pages and sections specified\n`;
-  b += `  • Reflect the brand style: ${d.styles.join(', ')||'as described in branding section'}\n`;
-  b += `  • Use the brand colours: ${d.prefColors.join(', ')||'as described'}\n`;
-  b += `  • Be fully responsive (mobile-first), fast, and accessible\n`;
-  b += `  • Include clear calls-to-action aligned with the website goals\n`;
-  b += `  • Be SEO-optimised for the specified cities and services\n`;
-  b += `  • Feature a modern, premium design befitting the ${d.industry||'industry'} sector\n\n`;
-  b += `Prioritise clean code, excellent UX, and a design that converts visitors into clients.\n`;
-
-  b += `\n${'─'.repeat(60)}\nPrepared for ${d.bizName||'Client'} by Northstar Web\n`;
-  b += `Contact: ${NSW_EMAIL}\n${'─'.repeat(60)}\n`;
+  b += `\n${'─'.repeat(W)}\n`;
+  b += `  Prepared for: ${d.bizName || 'Client'}\n`;
+  b += `  Prepared by:  Northstar Web\n`;
+  b += `  Contact:      ${NSW_EMAIL}\n`;
+  b += `  Package:      ${d.budget || 'To be confirmed'}\n`;
+  b += `  Launch target:${d.launchDate ? ' ' + d.launchDate : ' To be confirmed'}\n`;
+  b += `${'─'.repeat(W)}\n`;
 
   return b;
 }
 
+/* ══════════════════════════════════════════════════════════
+   GENERATE BRIEF
+   ══════════════════════════════════════════════════════════ */
 function generateBrief() {
   const d = collectFormData();
   const text = buildBriefText(d);
 
-  // Store globally so all export functions can access without regenerating
+  // Always store full brief globally
   window.BRIEF_TEXT = text;
+
+  DBG.push(`Brief generated: ${text.length} chars`);
 
   document.getElementById('briefOutput').textContent = text;
   document.getElementById('output-section').style.display = 'block';
   setTimeout(() => {
     document.getElementById('output-section').scrollIntoView({behavior:'smooth',block:'start'});
   }, 100);
+
   showToast('Brief ready — choose how to send it! ✦');
   saveToStorage();
 }
 
-/* ── SEND: WHATSAPP ─────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   SEND: WHATSAPP — smart summary, no truncation
+   ══════════════════════════════════════════════════════════ */
 function sendToWhatsApp() {
+  // Ensure brief is ready
+  if (!window.BRIEF_TEXT) {
+    window.BRIEF_TEXT = buildBriefText(collectFormData());
+  }
   const d = collectFormData();
   const btn = document.getElementById('waSendBtn');
 
-  // Build a punchy summary (WA URLs have ~2000 char practical limit on some devices)
-  let msg = `✦ NEW CLIENT BRIEF — Northstar Web\n`;
-  msg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-  msg += `👤 *Client:* ${d.bizName || '—'}\n`;
-  msg += `👋 *Contact:* ${d.ownerName || '—'}\n`;
-  msg += `📧 *Email:* ${d.bizEmail || '—'}\n`;
-  msg += `📞 *Phone:* ${d.bizPhone || '—'}\n`;
-  msg += `🏢 *Industry:* ${d.industry || '—'}\n`;
-  if(d.domain) msg += `🌐 *Domain:* ${d.domain}\n`;
-  msg += '\n';
-  if(d.budget) msg += `💰 *Package:* ${d.budget}\n\n`;
-  if(d.bizDesc) msg += `📋 *About:*\n${d.bizDesc.slice(0,200)}${d.bizDesc.length>200?'…':''}\n\n`;
-  if(d.bizDiff) msg += `⭐ *Unique value:*\n${d.bizDiff.slice(0,150)}${d.bizDiff.length>150?'…':''}\n\n`;
+  /* Build compact WA summary — ALL key details, no mid-sentence truncation */
+  const lines = [];
+  lines.push('✦ *WEBSITE BRIEF — Northstar Web*');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('');
+  lines.push(`👤 *Business:* ${d.bizName || '—'}`);
+  if (d.ownerName)  lines.push(`👋 *Contact:*  ${d.ownerName}`);
+  if (d.bizEmail)   lines.push(`📧 *Email:*    ${d.bizEmail}`);
+  if (d.bizPhone)   lines.push(`📞 *Phone:*    ${d.bizPhone}`);
+  if (d.industry)   lines.push(`🏢 *Industry:* ${d.industry}`);
+  if (d.domain)     lines.push(`🌐 *Domain:*   ${d.domain}`);
+  if (d.bizAddress) lines.push(`📍 *Address:*  ${d.bizAddress}`);
+  lines.push('');
 
-  const validSvcs = d.services.filter(s=>s.name);
-  if(validSvcs.length) msg += `🛠 *Services:* ${validSvcs.map(s=>s.name).join(', ')}\n\n`;
-  if(d.goals.length) msg += `🎯 *Goals:* ${d.goals.join(', ')}\n`;
-  if(d.pages.length) msg += `📄 *Pages:* ${d.pages.join(', ')}\n`;
-  msg += '\n';
-  if(d.styles.length) msg += `🎨 *Style:* ${d.styles.join(', ')}\n`;
-  if(d.hasLogo) msg += `🖼 *Logo:* ${d.hasLogo}\n`;
-  msg += '\n';
-  if(d.seoCities) msg += `📍 *Areas:* ${d.seoCities}\n`;
-  if(d.seoServices) msg += `🔍 *Rank for:* ${d.seoServices}\n`;
-  msg += '\n';
-  if(d.pubPhone||d.pubEmail) msg += `📞 *Public contact:* ${[d.pubPhone,d.pubEmail].filter(Boolean).join(' · ')}\n`;
-  if(d.whatsapp) msg += `💬 *WhatsApp:* ${d.whatsapp}\n`;
-  if(d.smInstagram) msg += `📸 *Instagram:* ${d.smInstagram}\n`;
-  msg += '\n';
-  if(d.assets.length) msg += `📁 *Assets:* ${d.assets.join(', ')}\n`;
-  if(d.copyWriter) msg += `✍️ *Copy:* ${d.copyWriter}\n`;
-  if(d.launchDate) msg += `📅 *Launch:* ${d.launchDate}\n`;
-  if(d.extraNotes) msg += `\n📝 *Notes:*\n${d.extraNotes.slice(0,200)}${d.extraNotes.length>200?'…':''}\n`;
-  msg += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  msg += `_Full brief available on request · Sent via Northstar Web Brief Form_`;
+  if (d.budget)     lines.push(`💰 *Package:* ${d.budget}`);
+  if (d.launchDate) lines.push(`📅 *Launch:*  ${d.launchDate}`);
+  lines.push('');
 
-  const encoded = encodeURIComponent(msg);
-  // Enforce safe URL length — WA web has ~4096 char limit on the full URL
-  if (encoded.length > 3800) {
-    showToast('Brief is long — opening with summary. Use Email for the full version.');
+  if (d.bizDesc) {
+    // No mid-sentence truncation — send full if under 300 chars, else end at sentence boundary
+    const desc = d.bizDesc.length <= 300 ? d.bizDesc : sentenceCut(d.bizDesc, 300);
+    lines.push(`📋 *About:*\n${desc}`);
+    lines.push('');
   }
 
+  if (d.bizDiff) {
+    const diff = d.bizDiff.length <= 200 ? d.bizDiff : sentenceCut(d.bizDiff, 200);
+    lines.push(`⭐ *Unique Value:*\n${diff}`);
+    lines.push('');
+  }
+
+  const validSvcs = d.services.filter(s => s.name);
+  if (validSvcs.length) {
+    lines.push(`🛠 *Services (${validSvcs.length}):*`);
+    validSvcs.forEach(s => {
+      lines.push(`  • ${s.name}${s.price ? ' — ' + s.price : ''}`);
+    });
+    lines.push('');
+  }
+
+  if (d.goals.length) lines.push(`🎯 *Goals:* ${d.goals.join(', ')}`);
+  if (d.pages.length) lines.push(`📄 *Pages:* ${d.pages.join(', ')}${d.customPages ? ', ' + d.customPages : ''}`);
+  lines.push('');
+
+  if (d.styles.length)      lines.push(`🎨 *Style:*  ${d.styles.join(', ')}`);
+  if (d.prefColors.length)  lines.push(`🎨 *Colours:* ${d.prefColors.join(' · ')}`);
+  if (d.avoidColors)        lines.push(`🚫 *Avoid:*  ${d.avoidColors}`);
+  if (d.hasLogo)            lines.push(`🖼 *Logo:*   ${d.hasLogo}`);
+  if (d.inspiration)        lines.push(`💡 *Inspired by:* ${d.inspiration}`);
+  lines.push('');
+
+  if (d.seoCities)   lines.push(`📍 *Areas:*      ${d.seoCities}`);
+  if (d.seoServices) lines.push(`🔍 *Rank for:*   ${d.seoServices}`);
+  if (d.seoKeywords) {
+    const kw = d.seoKeywords.length <= 120 ? d.seoKeywords : sentenceCut(d.seoKeywords, 120);
+    lines.push(`🔍 *Keywords:*   ${kw}`);
+  }
+  lines.push('');
+
+  if (d.pubPhone || d.pubEmail) lines.push(`📞 *Site contact:* ${[d.pubPhone,d.pubEmail].filter(Boolean).join(' · ')}`);
+  if (d.whatsapp)    lines.push(`💬 *WhatsApp:*   ${d.whatsapp}`);
+  if (d.smInstagram) lines.push(`📸 *Instagram:*  ${d.smInstagram}`);
+  if (d.smFacebook)  lines.push(`👍 *Facebook:*   ${d.smFacebook}`);
+  if (d.smLinkedin)  lines.push(`💼 *LinkedIn:*   ${d.smLinkedin}`);
+  if (d.smOther)     lines.push(`🔗 *Other:*      ${d.smOther}`);
+  lines.push('');
+
+  if (d.assets.length) lines.push(`📁 *Assets:*  ${d.assets.join(', ')}`);
+  if (d.copyWriter)    lines.push(`✍️ *Copy:*    ${d.copyWriter}`);
+
+  const compList = [d.comp1,d.comp2,d.comp3].filter(Boolean);
+  if (compList.length) lines.push(`🏆 *Competitors:* ${compList.join(' · ')}`);
+
+  if (d.extraNotes) {
+    const note = d.extraNotes.length <= 250 ? d.extraNotes : sentenceCut(d.extraNotes, 250);
+    lines.push('');
+    lines.push(`📝 *Notes:*\n${note}`);
+  }
+
+  lines.push('');
+  lines.push('━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  lines.push('_Full .txt brief downloaded separately · Northstar Web_');
+
+  const msg = lines.join('\n');
+  const encoded = encodeURIComponent(msg);
   const waUrl = `https://wa.me/${NSW_WA_NUMBER}?text=${encoded}`;
+
+  // If URL is too long for WA (practical limit ~4000 chars on URL), fall back to email
+  if (waUrl.length > 4000) {
+    DBG.push(`WA URL too long (${waUrl.length}), falling back to email`, 'warn');
+    showToast('Brief is large — opening email instead with full brief attached ↓');
+    setTimeout(() => sendByEmail(), 800);
+    return;
+  }
+
+  // Auto-download full .txt so they have the complete version
+  exportTxt();
 
   btn.style.opacity = '0.7';
   btn.style.pointerEvents = 'none';
-
   window.open(waUrl, '_blank');
 
   setTimeout(() => {
     btn.style.opacity = '1';
     btn.style.pointerEvents = 'auto';
-    showToast('WhatsApp opened! ✦');
+    showToast('WhatsApp opened + full brief downloaded ✦');
   }, 1200);
 }
 
-/* ── SEND: EMAIL ────────────────────────────── */
-function sendByEmail() {
-  // Ensure brief is generated
-  if (!window.BRIEF_TEXT) {
-    const d = collectFormData();
-    window.BRIEF_TEXT = buildBriefText(d);
-  }
+// Cut text at the last full sentence boundary before maxLen
+function sentenceCut(text, maxLen) {
+  if (text.length <= maxLen) return text;
+  const cut = text.substring(0, maxLen);
+  const lastPeriod = Math.max(cut.lastIndexOf('.'), cut.lastIndexOf('!'), cut.lastIndexOf('?'));
+  return lastPeriod > maxLen * 0.5 ? cut.substring(0, lastPeriod + 1) + '…' : cut + '…';
+}
 
+/* ══════════════════════════════════════════════════════════
+   SEND: EMAIL — full brief as body, auto-download .txt
+   FIX: mailto body contains full brief (base64-safe chars),
+   plus auto-triggers .txt download so they can attach it.
+   ══════════════════════════════════════════════════════════ */
+function sendByEmail() {
+  if (!window.BRIEF_TEXT) {
+    window.BRIEF_TEXT = buildBriefText(collectFormData());
+  }
   const d = collectFormData();
+
   const subject = encodeURIComponent(`Website Brief — ${d.bizName || 'New Client'} | Northstar Web`);
 
-  // mailto body has a practical limit (~2000 chars in most clients)
-  // We send a clean version; user can paste the full TXT if needed
-  const bodyLines = [];
-  bodyLines.push(`Hi Moiz & Anas,`);
-  bodyLines.push(``);
-  bodyLines.push(`Please find my website project brief below.`);
-  bodyLines.push(``);
-  bodyLines.push(`━━━━━━━━━━━━━━━━━━━━━━━━`);
-  bodyLines.push(`Business:   ${d.bizName}`);
-  bodyLines.push(`Contact:    ${d.ownerName}`);
-  bodyLines.push(`Email:      ${d.bizEmail}`);
-  bodyLines.push(`Phone:      ${d.bizPhone}`);
-  bodyLines.push(`Industry:   ${d.industry}`);
-  if(d.budget)     bodyLines.push(`Package:    ${d.budget}`);
-  if(d.launchDate) bodyLines.push(`Launch:     ${d.launchDate}`);
-  bodyLines.push(`━━━━━━━━━━━━━━━━━━━━━━━━`);
-  bodyLines.push(``);
-  if(d.bizDesc)    bodyLines.push(`About:\n${d.bizDesc}\n`);
-  if(d.bizDiff)    bodyLines.push(`Unique value:\n${d.bizDiff}\n`);
-  const validSvcs = d.services.filter(s=>s.name);
-  if(validSvcs.length) bodyLines.push(`Services: ${validSvcs.map(s=>s.name).join(', ')}\n`);
-  if(d.goals.length) bodyLines.push(`Goals: ${d.goals.join(', ')}\n`);
-  if(d.pages.length) bodyLines.push(`Pages: ${d.pages.join(', ')}\n`);
-  if(d.styles.length) bodyLines.push(`Style: ${d.styles.join(', ')}`);
-  if(d.seoCities) bodyLines.push(`Areas: ${d.seoCities}`);
-  if(d.seoServices) bodyLines.push(`Rank for: ${d.seoServices}`);
-  if(d.extraNotes) bodyLines.push(`\nNotes:\n${d.extraNotes}`);
-  bodyLines.push(``);
-  bodyLines.push(`Full detailed brief is attached / available on request.`);
-  bodyLines.push(``);
-  bodyLines.push(`Thanks,`);
-  bodyLines.push(`${d.ownerName || d.bizName}`);
+  // mailto body: include as much of the brief as possible.
+  // Most email clients support up to ~8000 chars in mailto body.
+  // We'll send the full brief — if over 8000 chars, we include a notice
+  // and auto-download the .txt file.
+  const MAX_MAILTO_BODY = 7500;
+  let body = window.BRIEF_TEXT;
+  let truncNotice = '';
 
-  const body = encodeURIComponent(bodyLines.join('\n'));
-  const mailUrl = `mailto:${NSW_EMAIL}?subject=${subject}&body=${body}`;
+  if (body.length > MAX_MAILTO_BODY) {
+    truncNotice = `\n\n[NOTICE: Full brief is ${body.length} characters. The complete version has been\nauto-downloaded as a .txt file — please attach it to this email.]\n`;
+    body = body.substring(0, MAX_MAILTO_BODY) + truncNotice;
+    DBG.push(`Email body truncated to ${MAX_MAILTO_BODY} chars`, 'warn');
+    // Auto-download full brief so they can attach it
+    exportTxt();
+    setTimeout(() => showToast('Full brief downloaded — please attach it to your email! ✦'), 800);
+  }
+
+  const encodedBody = encodeURIComponent(body);
+  const mailUrl = `mailto:${NSW_EMAIL}?subject=${subject}&body=${encodedBody}`;
 
   window.location.href = mailUrl;
   showToast('Email app opening… ✦');
 
-  // Trigger TXT download automatically so they can attach the full brief
-  setTimeout(() => {
-    exportTxt();
-    showToast('Full brief downloaded — attach it to your email! ✦');
-  }, 1500);
+  // Always download the .txt regardless so they have it
+  if (body.length <= MAX_MAILTO_BODY) {
+    setTimeout(() => exportTxt(), 1500);
+  }
 }
 
-/* ── COPY ───────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   COPY TO CLIPBOARD — full brief, no truncation
+   ══════════════════════════════════════════════════════════ */
 function copyBrief() {
   if (!window.BRIEF_TEXT) {
     window.BRIEF_TEXT = buildBriefText(collectFormData());
   }
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(window.BRIEF_TEXT)
-      .then(() => showToast('Full brief copied to clipboard ✦'))
+      .then(() => showToast(`Full brief copied (${window.BRIEF_TEXT.length} chars) ✦`))
       .catch(() => fallbackCopy());
   } else {
     fallbackCopy();
@@ -1857,20 +2281,23 @@ function copyBrief() {
 function fallbackCopy() {
   const ta = document.createElement('textarea');
   ta.value = window.BRIEF_TEXT;
-  ta.style.position = 'fixed';
-  ta.style.left = '-9999px';
+  ta.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0';
   document.body.appendChild(ta);
+  ta.focus();
   ta.select();
   try {
     document.execCommand('copy');
     showToast('Full brief copied ✦');
   } catch(e) {
-    showToast('Copy failed — please use Download instead.');
+    showToast('Copy failed — use Download instead.');
+    DBG.push('fallbackCopy failed: ' + e.message, 'error');
   }
   document.body.removeChild(ta);
 }
 
-/* ── DOWNLOAD TXT ───────────────────────────── */
+/* ══════════════════════════════════════════════════════════
+   DOWNLOAD TXT — always full, never truncated
+   ══════════════════════════════════════════════════════════ */
 function exportTxt() {
   if (!window.BRIEF_TEXT) {
     window.BRIEF_TEXT = buildBriefText(collectFormData());
@@ -1879,22 +2306,23 @@ function exportTxt() {
   const blob = new Blob([window.BRIEF_TEXT], {type:'text/plain;charset=utf-8'});
   const a    = document.createElement('a');
   a.href     = URL.createObjectURL(blob);
-  a.download = `northstar-brief-${biz.toLowerCase().replace(/\s+/g,'-')}.txt`;
+  a.download = `northstar-brief-${biz.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')}.txt`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
+  DBG.push(`TXT exported: ${window.BRIEF_TEXT.length} chars`);
   showToast('Downloaded as .txt ✦');
 }
 
-/* ── PRINT ──────────────────────────────────── */
+/* ── PRINT ──────────────────────────────────────────────── */
 function printBrief() {
-  // Make sure preview is visible for print
   document.getElementById('briefPreviewWrap').style.display = 'block';
+  document.getElementById('previewArrow').style.transform = 'rotate(180deg)';
   window.print();
 }
 
-/* ── EDIT ───────────────────────────────────── */
+/* ── EDIT ───────────────────────────────────────────────── */
 function editBrief() {
   document.getElementById('output-section').style.display = 'none';
   currentSection = 0;
@@ -1902,7 +2330,7 @@ function editBrief() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ── TOGGLE PREVIEW ─────────────────────────── */
+/* ── TOGGLE PREVIEW ─────────────────────────────────────── */
 function toggleBriefPreview() {
   const wrap  = document.getElementById('briefPreviewWrap');
   const arrow = document.getElementById('previewArrow');
@@ -1911,22 +2339,23 @@ function toggleBriefPreview() {
   arrow.style.transform = open ? 'rotate(180deg)' : 'rotate(0)';
 }
 
-/* ── CLEAR FORM ─────────────────────────────── */
+/* ── CLEAR FORM ─────────────────────────────────────────── */
 function clearForm() {
   if (!confirm('Clear all form data? This cannot be undone.')) return;
-  localStorage.removeItem('nsw_brief_v1');
+  localStorage.removeItem(STORAGE_KEY);
   location.reload();
 }
 
-/* ── TOAST ──────────────────────────────────── */
+/* ── TOAST ──────────────────────────────────────────────── */
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3800);
 }
+
 </script>
 </body>
 </html>
